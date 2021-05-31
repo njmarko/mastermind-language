@@ -157,6 +157,9 @@ kombinacija
     : _ZNAK _ZNAK _ZNAK _ZNAK
     {
       unesena_kombinacija[trenutni_znak++] = $1;
+      unesena_kombinacija[trenutni_znak++] = $2;
+      unesena_kombinacija[trenutni_znak++] = $3;
+      unesena_kombinacija[trenutni_znak++] = $4;
       odigraj_kombinaciju();
     }
     | kombinacija _ZNAK

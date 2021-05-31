@@ -636,7 +636,7 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   146,   146,   150,   157,   162
+       0,   146,   146,   150,   157,   165
 };
 #endif
 
@@ -1434,21 +1434,24 @@ yyreduce:
 #line 158 "скочко.y"
     {
       unesena_kombinacija[trenutni_znak++] = (yyvsp[-3].i);
+      unesena_kombinacija[trenutni_znak++] = (yyvsp[-2].i);
+      unesena_kombinacija[trenutni_znak++] = (yyvsp[-1].i);
+      unesena_kombinacija[trenutni_znak++] = (yyvsp[0].i);
       odigraj_kombinaciju();
     }
-#line 1440 "скочко.tab.c"
+#line 1443 "скочко.tab.c"
     break;
 
   case 5:
-#line 163 "скочко.y"
+#line 166 "скочко.y"
     {
       unesena_kombinacija[trenutni_znak++] = (yyvsp[0].i);
     }
-#line 1448 "скочко.tab.c"
+#line 1451 "скочко.tab.c"
     break;
 
 
-#line 1452 "скочко.tab.c"
+#line 1455 "скочко.tab.c"
 
       default: break;
     }
@@ -1680,7 +1683,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 168 "скочко.y"
+#line 171 "скочко.y"
 
 
 int yyerror(char *s) {
