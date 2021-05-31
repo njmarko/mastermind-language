@@ -19,7 +19,7 @@ Grammar
 
     2 lista_kombinacija: kombinacija
 
-    3 kombinacija: _ZNAK _ZNAK _ZNAK _ZNAK
+    3 kombinacija: _ZNAK
     4            | kombinacija _ZNAK
 
 
@@ -67,16 +67,16 @@ State 0
 
 State 1
 
-    3 kombinacija: _ZNAK . _ZNAK _ZNAK _ZNAK
+    3 kombinacija: _ZNAK .
 
-    _ZNAK  shift, and go to state 5
+    $default  reduce using rule 3 (kombinacija)
 
 
 State 2
 
     0 $accept: igra . $end
 
-    $end  shift, and go to state 6
+    $end  shift, and go to state 5
 
 
 State 3
@@ -91,41 +91,20 @@ State 4
     2 lista_kombinacija: kombinacija .
     4 kombinacija: kombinacija . _ZNAK
 
-    _ZNAK  shift, and go to state 7
+    _ZNAK  shift, and go to state 6
 
     $default  reduce using rule 2 (lista_kombinacija)
 
 
 State 5
 
-    3 kombinacija: _ZNAK _ZNAK . _ZNAK _ZNAK
-
-    _ZNAK  shift, and go to state 8
-
-
-State 6
-
     0 $accept: igra $end .
 
     $default  accept
 
 
-State 7
+State 6
 
     4 kombinacija: kombinacija _ZNAK .
 
     $default  reduce using rule 4 (kombinacija)
-
-
-State 8
-
-    3 kombinacija: _ZNAK _ZNAK _ZNAK . _ZNAK
-
-    _ZNAK  shift, and go to state 9
-
-
-State 9
-
-    3 kombinacija: _ZNAK _ZNAK _ZNAK _ZNAK .
-
-    $default  reduce using rule 3 (kombinacija)

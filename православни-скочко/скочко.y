@@ -148,23 +148,27 @@ igra
 
 lista_kombinacija
     : kombinacija
-    {
-      odigraj_kombinaciju();
-    }
     ;
 
 kombinacija
-    : _ZNAK _ZNAK _ZNAK _ZNAK
+    : _ZNAK 
     {
       unesena_kombinacija[trenutni_znak++] = $1;
-      unesena_kombinacija[trenutni_znak++] = $2;
-      unesena_kombinacija[trenutni_znak++] = $3;
-      unesena_kombinacija[trenutni_znak++] = $4;
-      odigraj_kombinaciju();
+      if ((trenutni_znak + 1)%5 == 0)
+      {
+        trenutni_znak = 0;
+        odigraj_kombinaciju();
+      }
+      
     }
     | kombinacija _ZNAK
     {
       unesena_kombinacija[trenutni_znak++] = $2;
+      if ((trenutni_znak + 1)%5 == 0)
+      {
+        trenutni_znak = 0;
+        odigraj_kombinaciju();
+      }
     }
     ;
 

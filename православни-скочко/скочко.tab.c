@@ -577,9 +577,9 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  6
+#define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   5
+#define YYLAST   2
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  13
@@ -588,7 +588,7 @@ union yyalloc
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  5
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  10
+#define YYNSTATES  7
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   267
@@ -636,7 +636,7 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   146,   146,   150,   157,   165
+       0,   146,   146,   150,   154,   164
 };
 #endif
 
@@ -675,7 +675,7 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -12,   -11,     2,   -13,    -9,    -8,   -13,   -13,    -7,   -13
+     -12,   -13,     1,   -13,   -10,   -13,   -13
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -683,7 +683,7 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     2,     3,     0,     1,     5,     0,     4
+       0,     4,     0,     2,     3,     1,     5
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -703,19 +703,19 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,     5,     6,     7,     8,     9
+       1,     5,     6
 };
 
 static const yytype_int8 yycheck[] =
 {
-      12,    12,     0,    12,    12,    12
+      12,     0,    12
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    12,    14,    15,    16,    12,     0,    12,    12,    12
+       0,    12,    14,    15,    16,     0,    12
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -727,7 +727,7 @@ static const yytype_int8 yyr1[] =
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     1,     4,     2
+       0,     2,     1,     1,     1,     2
 };
 
 
@@ -1422,36 +1422,35 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 3:
-#line 151 "скочко.y"
-    {
-      odigraj_kombinaciju();
-    }
-#line 1431 "скочко.tab.c"
-    break;
-
   case 4:
-#line 158 "скочко.y"
+#line 155 "скочко.y"
     {
-      unesena_kombinacija[trenutni_znak++] = (yyvsp[-3].i);
-      unesena_kombinacija[trenutni_znak++] = (yyvsp[-2].i);
-      unesena_kombinacija[trenutni_znak++] = (yyvsp[-1].i);
       unesena_kombinacija[trenutni_znak++] = (yyvsp[0].i);
-      odigraj_kombinaciju();
+      if ((trenutni_znak + 1)%5 == 0)
+      {
+        trenutni_znak = 0;
+        odigraj_kombinaciju();
+      }
+      
     }
-#line 1443 "скочко.tab.c"
+#line 1437 "скочко.tab.c"
     break;
 
   case 5:
-#line 166 "скочко.y"
+#line 165 "скочко.y"
     {
       unesena_kombinacija[trenutni_znak++] = (yyvsp[0].i);
+      if ((trenutni_znak + 1)%5 == 0)
+      {
+        trenutni_znak = 0;
+        odigraj_kombinaciju();
+      }
     }
-#line 1451 "скочко.tab.c"
+#line 1450 "скочко.tab.c"
     break;
 
 
-#line 1455 "скочко.tab.c"
+#line 1454 "скочко.tab.c"
 
       default: break;
     }
@@ -1683,7 +1682,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 171 "скочко.y"
+#line 175 "скочко.y"
 
 
 int yyerror(char *s) {
