@@ -1,7 +1,7 @@
 %{
     #include <stdio.h>
     #include <stdlib.h>
-    #include<time.h> 
+    #include <time.h> 
     #include "defs.h"
     #include "symtab.h"
 
@@ -52,6 +52,8 @@
 
     int broj_unetih_znakova = 0;
 
+    int trenutni_znak = 0;
+
     void isprazni_tablu(){
       int i;
       for(i = 0; i< 48; ++i){
@@ -96,46 +98,7 @@
       netacna_pozicija -= tacna_pozicija;
     }
 
-
-%}
-
-
-%union {
-    int i;
-    char *s;
-}
-
-
-%token _SKOCKO
-%token _KARO
-%token _HERC
-%token _ZVEZDA
-%token _PIK
-%token _TREF
-%token <i> _ZNAK
-%token _ENTER
-%token _NOVA_IGRA
-%token _KRAJ
-
-%%
-
-igra
-    : lista_kombinacija
-    ; 
-
-lista_kombinacija
-    : kombinacija
-    | lista_kombinacija kombinacija
-    ;
-
-kombinacija
-    : _ZNAK _ZNAK _ZNAK _ZNAK
-    {
-        
-      unesena_kombinacija[0] = $1;
-      unesena_kombinacija[1] = $2;
-      unesena_kombinacija[2] = $3;
-      unesena_kombinacija[3] = $4;
+    void odigraj_kombinaciju(){
       evaluiraj_poziciju(unesena_kombinacija, trazena_kombinacija);
       int i;
       for(i = 0; i < 4; ++i){
@@ -155,6 +118,51 @@ kombinacija
 
       printf("\nBroj tacnih: %d \t broj netacnih: %d", tacna_pozicija, netacna_pozicija);
     }
+
+
+%}
+
+
+%union {
+    int i;
+    char *s;
+}
+
+
+%token _SKOCKO
+%token _KARO
+%token _HERC
+%token _ZVEZDA
+%token _PIK
+%token _TREF
+%token _ENTER
+%token _NOVA_IGRA
+%token _KRAJ
+%token <i> _ZNAK
+
+%%
+
+igra
+    : lista_kombinacija
+    ; 
+
+lista_kombinacija
+    : kombinacija
+    {
+      odigraj_kombinaciju();
+    }
+    ;
+
+kombinacija
+    : _ZNAK _ZNAK _ZNAK _ZNAK
+    {
+      unesena_kombinacija[trenutni_znak++] = $1;
+      odigraj_kombinaciju();
+    }
+    | kombinacija _ZNAK
+    {
+      unesena_kombinacija[trenutni_znak++] = $2;
+    }
     ;
 
 %%
@@ -171,13 +179,14 @@ void warning(char *s) {
 }
 
 int main(){
-      printf(red, znak_herc, znak_karo, znak_skocko, znak_tref, "C", "C", "Z", "Z");
+    // extern int yydebug;
+    // yydebug = 1;
+
+    srand(time(0));
 
     isprazni_tablu();
-    znakovi_za_tablu[0] = znak_tref;
-    znakovi_za_tablu[1] = znak_zvezda;
     printf(tabla, tabla_args(znakovi_za_tablu));
-    srand(time(0));
+
     int i;
     for(i = 0; i < 6; ++i){
       trazena_kombinacija[i] = rand() % 6;

@@ -70,7 +70,7 @@
 
     #include <stdio.h>
     #include <stdlib.h>
-    #include<time.h> 
+    #include <time.h> 
     #include "defs.h"
     #include "symtab.h"
 
@@ -121,6 +121,8 @@
 
     int broj_unetih_znakova = 0;
 
+    int trenutni_znak = 0;
+
     void isprazni_tablu(){
       int i;
       for(i = 0; i< 48; ++i){
@@ -165,9 +167,30 @@
       netacna_pozicija -= tacna_pozicija;
     }
 
+    void odigraj_kombinaciju(){
+      evaluiraj_poziciju(unesena_kombinacija, trazena_kombinacija);
+      int i;
+      for(i = 0; i < 4; ++i){
+        znakovi_za_tablu[broj_unetih_znakova++] = znakovi_za_ispis[unesena_kombinacija[i]];
+      }
+      for(i = 0; i < tacna_pozicija; ++i){
+        znakovi_za_tablu[broj_unetih_znakova++] = znak_crveni;
+      }
+      for(i = 0; i < netacna_pozicija; ++i){
+        znakovi_za_tablu[broj_unetih_znakova++] = znak_zuti;
+      }
+      for(i = 0; i < 4 - tacna_pozicija - netacna_pozicija; ++i){
+        znakovi_za_tablu[broj_unetih_znakova++] = znak_prazan;
+      }
+
+      printf(tabla, tabla_args(znakovi_za_tablu));
+
+      printf("\nBroj tacnih: %d \t broj netacnih: %d", tacna_pozicija, netacna_pozicija);
+    }
 
 
-#line 171 "скочко.tab.c"
+
+#line 194 "скочко.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -221,10 +244,10 @@ extern int yydebug;
     _ZVEZDA = 261,
     _PIK = 262,
     _TREF = 263,
-    _ZNAK = 264,
-    _ENTER = 265,
-    _NOVA_IGRA = 266,
-    _KRAJ = 267
+    _ENTER = 264,
+    _NOVA_IGRA = 265,
+    _KRAJ = 266,
+    _ZNAK = 267
   };
 #endif
 
@@ -232,12 +255,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 103 "скочко.y"
+#line 126 "скочко.y"
 
     int i;
     char *s;
 
-#line 241 "скочко.tab.c"
+#line 264 "скочко.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -556,7 +579,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   6
+#define YYLAST   5
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  13
@@ -613,7 +636,7 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   123,   123,   127,   128,   132
+       0,   146,   146,   150,   157,   162
 };
 #endif
 
@@ -623,7 +646,7 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "_SKOCKO", "_KARO", "_HERC", "_ZVEZDA",
-  "_PIK", "_TREF", "_ZNAK", "_ENTER", "_NOVA_IGRA", "_KRAJ", "$accept",
+  "_PIK", "_TREF", "_ENTER", "_NOVA_IGRA", "_KRAJ", "_ZNAK", "$accept",
   "igra", "lista_kombinacija", "kombinacija", YY_NULLPTR
 };
 #endif
@@ -638,7 +661,7 @@ static const yytype_int16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF (-10)
+#define YYPACT_NINF (-13)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -652,7 +675,7 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -9,    -8,     2,    -9,   -10,    -6,   -10,   -10,    -5,   -10
+     -12,   -11,     2,   -13,    -9,    -8,   -13,   -13,    -7,   -13
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -660,13 +683,13 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     2,     3,     0,     1,     4,     0,     5
+       0,     0,     0,     2,     3,     0,     1,     5,     0,     4
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -10,   -10,   -10,     3
+     -13,   -13,   -13,   -13
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -680,31 +703,31 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,     5,     6,     8,     9,     0,     7
+       1,     5,     6,     7,     8,     9
 };
 
 static const yytype_int8 yycheck[] =
 {
-       9,     9,     0,     9,     9,    -1,     3
+      12,    12,     0,    12,    12,    12
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     9,    14,    15,    16,     9,     0,    16,     9,     9
+       0,    12,    14,    15,    16,    12,     0,    12,    12,    12
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    13,    14,    15,    15,    16
+       0,    13,    14,    15,    16,    16
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     1,     2,     4
+       0,     2,     1,     1,     4,     2
 };
 
 
@@ -1399,38 +1422,33 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 5:
-#line 133 "скочко.y"
+  case 3:
+#line 151 "скочко.y"
     {
-        
-      unesena_kombinacija[0] = (yyvsp[-3].i);
-      unesena_kombinacija[1] = (yyvsp[-2].i);
-      unesena_kombinacija[2] = (yyvsp[-1].i);
-      unesena_kombinacija[3] = (yyvsp[0].i);
-      evaluiraj_poziciju(unesena_kombinacija, trazena_kombinacija);
-      int i;
-      for(i = 0; i < 4; ++i){
-        znakovi_za_tablu[broj_unetih_znakova++] = znakovi_za_ispis[unesena_kombinacija[i]];
-      }
-      for(i = 0; i < tacna_pozicija; ++i){
-        znakovi_za_tablu[broj_unetih_znakova++] = znak_crveni;
-      }
-      for(i = 0; i < netacna_pozicija; ++i){
-        znakovi_za_tablu[broj_unetih_znakova++] = znak_zuti;
-      }
-      for(i = 0; i < 4 - tacna_pozicija - netacna_pozicija; ++i){
-        znakovi_za_tablu[broj_unetih_znakova++] = znak_prazan;
-      }
-
-      printf(tabla, tabla_args(znakovi_za_tablu));
-
-      printf("\nBroj tacnih: %d \t broj netacnih: %d", tacna_pozicija, netacna_pozicija);
+      odigraj_kombinaciju();
     }
-#line 1430 "скочко.tab.c"
+#line 1431 "скочко.tab.c"
+    break;
+
+  case 4:
+#line 158 "скочко.y"
+    {
+      unesena_kombinacija[trenutni_znak++] = (yyvsp[-3].i);
+      odigraj_kombinaciju();
+    }
+#line 1440 "скочко.tab.c"
+    break;
+
+  case 5:
+#line 163 "скочко.y"
+    {
+      unesena_kombinacija[trenutni_znak++] = (yyvsp[0].i);
+    }
+#line 1448 "скочко.tab.c"
     break;
 
 
-#line 1434 "скочко.tab.c"
+#line 1452 "скочко.tab.c"
 
       default: break;
     }
@@ -1662,7 +1680,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 160 "скочко.y"
+#line 168 "скочко.y"
 
 
 int yyerror(char *s) {
@@ -1677,13 +1695,14 @@ void warning(char *s) {
 }
 
 int main(){
-      printf(red, znak_herc, znak_karo, znak_skocko, znak_tref, "C", "C", "Z", "Z");
+    // extern int yydebug;
+    // yydebug = 1;
+
+    srand(time(0));
 
     isprazni_tablu();
-    znakovi_za_tablu[0] = znak_tref;
-    znakovi_za_tablu[1] = znak_zvezda;
     printf(tabla, tabla_args(znakovi_za_tablu));
-    srand(time(0));
+
     int i;
     for(i = 0; i < 6; ++i){
       trazena_kombinacija[i] = rand() % 6;

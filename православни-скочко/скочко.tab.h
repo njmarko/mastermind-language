@@ -55,10 +55,10 @@ extern int yydebug;
     _ZVEZDA = 261,
     _PIK = 262,
     _TREF = 263,
-    _ZNAK = 264,
-    _ENTER = 265,
-    _NOVA_IGRA = 266,
-    _KRAJ = 267
+    _ENTER = 264,
+    _NOVA_IGRA = 265,
+    _KRAJ = 266,
+    _ZNAK = 267
   };
 #endif
 
@@ -66,7 +66,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 103 "скочко.y"
+#line 126 "скочко.y"
 
     int i;
     char *s;
