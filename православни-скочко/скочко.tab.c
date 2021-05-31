@@ -95,15 +95,17 @@
     char * tabla = "\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n\0";
     char * red = "\n|%-1s |%-1s |%-1s |%-1s |   |%1s|%1s|%1s|%1s|\n\0";
 
-    char * znak_pik = "\033[1;34m\u2660\033[0m\0";
-    char * znak_karo = "\033[1;31m\u2666\033[0m\0";
-    char * znak_skocko = "\033[1;33m\u263A\033[0m\0";
-    char * znak_zvezda = "\033[1;33m\u2605\033[0m\0";
-    char * znak_tref = "\033[1;34m\u2663\033[0m\0";
-    char * znak_herc = "\033[1;31m\u2665\033[0m\0";
-    char * znak_crveni = "\033[1;31mO\033[0m\0";
-    char * znak_zuti = "\033[1;33mO\033[0m\0";
-    char * znak_prazan = "\0\033[0m\0";
+    #define znak_pik  "\033[1;34m\u2660\033[0m\0"
+    #define znak_karo  "\033[1;31m\u2666\033[0m\0"
+    #define znak_skocko  "\033[1;33m\u263A\033[0m\0"
+    #define znak_zvezda  "\033[1;33m\u2605\033[0m\0"
+    #define znak_tref  "\033[1;34m\u2663\033[0m\0"
+    #define znak_herc  "\033[1;31m\u2665\033[0m\0"
+    #define znak_crveni  "\033[1;31mO\033[0m\0"
+    #define znak_zuti  "\033[1;33mO\033[0m\0"
+    #define znak_prazan  "\0\033[0m\0"
+
+    char * znakovi_za_ispis[9] = {znak_skocko, znak_tref, znak_pik, znak_herc, znak_karo, znak_zvezda};
 
     enum Znak trazena_kombinacija[VELICINA_KOMBINACIJE] = {0};
 
@@ -116,6 +118,8 @@
     
     int tacna_pozicija = 0;
     int netacna_pozicija = 0 ;
+
+    int broj_unetih_znakova = 0;
 
     void isprazni_tablu(){
       int i;
@@ -163,7 +167,7 @@
 
 
 
-#line 167 "скочко.tab.c"
+#line 171 "скочко.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -228,12 +232,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 99 "скочко.y"
+#line 103 "скочко.y"
 
     int i;
     char *s;
 
-#line 237 "скочко.tab.c"
+#line 241 "скочко.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -609,7 +613,7 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   119,   119,   123,   124,   128
+       0,   123,   123,   127,   128,   132
 };
 #endif
 
@@ -1396,30 +1400,37 @@ yyreduce:
   switch (yyn)
     {
   case 5:
-#line 129 "скочко.y"
+#line 133 "скочко.y"
     {
-      int i;
-      for(i = 0; i < 6; ++i){
-        printf("\nz%d = %d", i, histogram_trazene_kombinacije[i]);
-      }
-      printf("znaci su %d, %d, %d, %d\n", (yyvsp[-3].i), (yyvsp[-2].i), (yyvsp[-1].i), (yyvsp[0].i));
         
       unesena_kombinacija[0] = (yyvsp[-3].i);
       unesena_kombinacija[1] = (yyvsp[-2].i);
       unesena_kombinacija[2] = (yyvsp[-1].i);
       unesena_kombinacija[3] = (yyvsp[0].i);
-      napravi_histogram(unesena_kombinacija, histogram_unesene_kombinacije);
-      for(i = 0; i < 6; ++i){
-        printf("\nz%d = %d", i, histogram_unesene_kombinacije[i]);
-      }
       evaluiraj_poziciju(unesena_kombinacija, trazena_kombinacija);
+      int i;
+      for(i = 0; i < 4; ++i){
+        znakovi_za_tablu[broj_unetih_znakova++] = znakovi_za_ispis[unesena_kombinacija[i]];
+      }
+      for(i = 0; i < tacna_pozicija; ++i){
+        znakovi_za_tablu[broj_unetih_znakova++] = znak_crveni;
+      }
+      for(i = 0; i < netacna_pozicija; ++i){
+        znakovi_za_tablu[broj_unetih_znakova++] = znak_zuti;
+      }
+      for(i = 0; i < 4 - tacna_pozicija - netacna_pozicija; ++i){
+        znakovi_za_tablu[broj_unetih_znakova++] = znak_prazan;
+      }
+
+      printf(tabla, tabla_args(znakovi_za_tablu));
+
       printf("\nBroj tacnih: %d \t broj netacnih: %d", tacna_pozicija, netacna_pozicija);
     }
-#line 1419 "скочко.tab.c"
+#line 1430 "скочко.tab.c"
     break;
 
 
-#line 1423 "скочко.tab.c"
+#line 1434 "скочко.tab.c"
 
       default: break;
     }
@@ -1651,7 +1662,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 149 "скочко.y"
+#line 160 "скочко.y"
 
 
 int yyerror(char *s) {

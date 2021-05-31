@@ -26,15 +26,17 @@
     char * tabla = "\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n\0";
     char * red = "\n|%-1s |%-1s |%-1s |%-1s |   |%1s|%1s|%1s|%1s|\n\0";
 
-    char * znak_pik = "\033[1;34m\u2660\033[0m\0";
-    char * znak_karo = "\033[1;31m\u2666\033[0m\0";
-    char * znak_skocko = "\033[1;33m\u263A\033[0m\0";
-    char * znak_zvezda = "\033[1;33m\u2605\033[0m\0";
-    char * znak_tref = "\033[1;34m\u2663\033[0m\0";
-    char * znak_herc = "\033[1;31m\u2665\033[0m\0";
-    char * znak_crveni = "\033[1;31mO\033[0m\0";
-    char * znak_zuti = "\033[1;33mO\033[0m\0";
-    char * znak_prazan = "\0\033[0m\0";
+    #define znak_pik  "\033[1;34m\u2660\033[0m\0"
+    #define znak_karo  "\033[1;31m\u2666\033[0m\0"
+    #define znak_skocko  "\033[1;33m\u263A\033[0m\0"
+    #define znak_zvezda  "\033[1;33m\u2605\033[0m\0"
+    #define znak_tref  "\033[1;34m\u2663\033[0m\0"
+    #define znak_herc  "\033[1;31m\u2665\033[0m\0"
+    #define znak_crveni  "\033[1;31mO\033[0m\0"
+    #define znak_zuti  "\033[1;33mO\033[0m\0"
+    #define znak_prazan  "\0\033[0m\0"
+
+    char * znakovi_za_ispis[9] = {znak_skocko, znak_tref, znak_pik, znak_herc, znak_karo, znak_zvezda};
 
     enum Znak trazena_kombinacija[VELICINA_KOMBINACIJE] = {0};
 
@@ -47,6 +49,8 @@
     
     int tacna_pozicija = 0;
     int netacna_pozicija = 0 ;
+
+    int broj_unetih_znakova = 0;
 
     void isprazni_tablu(){
       int i;
@@ -127,21 +131,28 @@ lista_kombinacija
 kombinacija
     : _ZNAK _ZNAK _ZNAK _ZNAK
     {
-      int i;
-      for(i = 0; i < 6; ++i){
-        printf("\nz%d = %d", i, histogram_trazene_kombinacije[i]);
-      }
-      printf("znaci su %d, %d, %d, %d\n", $1, $2, $3, $4);
         
       unesena_kombinacija[0] = $1;
       unesena_kombinacija[1] = $2;
       unesena_kombinacija[2] = $3;
       unesena_kombinacija[3] = $4;
-      napravi_histogram(unesena_kombinacija, histogram_unesene_kombinacije);
-      for(i = 0; i < 6; ++i){
-        printf("\nz%d = %d", i, histogram_unesene_kombinacije[i]);
-      }
       evaluiraj_poziciju(unesena_kombinacija, trazena_kombinacija);
+      int i;
+      for(i = 0; i < 4; ++i){
+        znakovi_za_tablu[broj_unetih_znakova++] = znakovi_za_ispis[unesena_kombinacija[i]];
+      }
+      for(i = 0; i < tacna_pozicija; ++i){
+        znakovi_za_tablu[broj_unetih_znakova++] = znak_crveni;
+      }
+      for(i = 0; i < netacna_pozicija; ++i){
+        znakovi_za_tablu[broj_unetih_znakova++] = znak_zuti;
+      }
+      for(i = 0; i < 4 - tacna_pozicija - netacna_pozicija; ++i){
+        znakovi_za_tablu[broj_unetih_znakova++] = znak_prazan;
+      }
+
+      printf(tabla, tabla_args(znakovi_za_tablu));
+
       printf("\nBroj tacnih: %d \t broj netacnih: %d", tacna_pozicija, netacna_pozicija);
     }
     ;
