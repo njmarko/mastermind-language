@@ -20,6 +20,7 @@
 
     #define BROJ_ZNAKOVA 6
     #define VELICINA_KOMBINACIJE 4
+    #define BROJ_ZNAKOVA_TABLA 48
     #define tabla_args(a) a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14], a[15], a[16], a[17], a[18], a[19], a[20], a[21], a[22], a[23], a[24], a[25], a[26], a[27], a[28], a[29], a[30], a[31], a[32], a[33], a[34], a[35], a[36], a[37], a[38], a[39], a[40], a[41], a[42], a[43], a[44], a[45], a[46], a[47]
     #define red_args(a) a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]
 
@@ -45,7 +46,7 @@
     enum Znak histogram_unesene_kombinacije[6];
     enum Znak histogram_trazene_kombinacije[6];
 
-    char* znakovi_za_tablu[48];
+    char* znakovi_za_tablu[BROJ_ZNAKOVA_TABLA];
     
     int tacna_pozicija = 0;
     int netacna_pozicija = 0 ;
@@ -56,7 +57,7 @@
 
     void isprazni_tablu(){
       int i;
-      for(i = 0; i< 48; ++i){
+      for(i = 0; i< BROJ_ZNAKOVA_TABLA; ++i){
         znakovi_za_tablu[i] = znak_prazan;
       }
     }
@@ -117,6 +118,17 @@
     }
 
 
+    void nova_igra(){
+        trenutni_znak = 0;
+        broj_unetih_znakova = 0;
+        tacna_pozicija = 0;
+        netacna_pozicija = 0;
+        isprazni_tablu();
+        napravi_histogram(trazena_kombinacija, histogram_trazene_kombinacije);
+        printf(tabla, tabla_args(znakovi_za_tablu));
+    }
+
+
 %}
 
 
@@ -127,21 +139,26 @@
 
 
 %token _SKOCKO
-%token _KARO
-%token _HERC
-%token _ZVEZDA
-%token _PIK
-%token _TREF
 %token _ENTER
-%token _NOVA_IGRA
+%token _NOVA
+%token _IGRA
 %token _KRAJ
 %token <i> _ZNAK
 
 %%
 
-igra
-    : lista_kombinacija
+program
+    : igra
+    | program igra
     ; 
+
+igra
+    : _NOVA _IGRA 
+    {
+      nova_igra();
+    } 
+    lista_kombinacija
+    ;
 
 lista_kombinacija
     : kombinacija
@@ -188,16 +205,6 @@ int main(){
 
     srand(time(0));
 
-    isprazni_tablu();
-    printf(tabla, tabla_args(znakovi_za_tablu));
-
-    int i;
-    for(i = 0; i < 6; ++i){
-      trazena_kombinacija[i] = rand() % 6;
-    }
-    printf("znaci su %d, %d, %d, %d\n", trazena_kombinacija[0],trazena_kombinacija[1],trazena_kombinacija[2],trazena_kombinacija[3]);
-
-    napravi_histogram(trazena_kombinacija, histogram_trazene_kombinacije);
 
     int synerr;
     init_symtab();

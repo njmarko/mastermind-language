@@ -20,8 +20,8 @@
 (з|З)(в|В)(е|Е)(з|З)(д|Д)(а|А)           {yylval.i = ZVEZDA; return _ZNAK;}
 (х|Х)(е|Е)(р|Р)(ц|Ц)                     {yylval.i = HERC; return _ZNAK;}
 
-(н|Н)(о|О)(в|В)(а|А)                     {return _NOVA_IGRA;}
-(и|И)(г|Г)(р|Р)(а|А)                     {return _NOVA_IGRA;}
+(н|Н)(о|О)(в|В)(а|А)                     {return _NOVA;}
+(и|И)(г|Г)(р|Р)(а|А)                     {return _IGRA;}
 (к|К)(р|Р)(а|А)(ј|Ј)                     {return _KRAJ;}
 
 [a-zA-Z]+ {printf("Непознат унос %s. Пробајте поново.\n", yytext);}

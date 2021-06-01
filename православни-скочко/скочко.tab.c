@@ -89,6 +89,7 @@
 
     #define BROJ_ZNAKOVA 6
     #define VELICINA_KOMBINACIJE 4
+    #define BROJ_ZNAKOVA_TABLA 48
     #define tabla_args(a) a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14], a[15], a[16], a[17], a[18], a[19], a[20], a[21], a[22], a[23], a[24], a[25], a[26], a[27], a[28], a[29], a[30], a[31], a[32], a[33], a[34], a[35], a[36], a[37], a[38], a[39], a[40], a[41], a[42], a[43], a[44], a[45], a[46], a[47]
     #define red_args(a) a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]
 
@@ -114,7 +115,7 @@
     enum Znak histogram_unesene_kombinacije[6];
     enum Znak histogram_trazene_kombinacije[6];
 
-    char* znakovi_za_tablu[48];
+    char* znakovi_za_tablu[BROJ_ZNAKOVA_TABLA];
     
     int tacna_pozicija = 0;
     int netacna_pozicija = 0 ;
@@ -125,7 +126,7 @@
 
     void isprazni_tablu(){
       int i;
-      for(i = 0; i< 48; ++i){
+      for(i = 0; i< BROJ_ZNAKOVA_TABLA; ++i){
         znakovi_za_tablu[i] = znak_prazan;
       }
     }
@@ -186,8 +187,19 @@
     }
 
 
+    void nova_igra(){
+        trenutni_znak = 0;
+        broj_unetih_znakova = 0;
+        tacna_pozicija = 0;
+        netacna_pozicija = 0;
+        isprazni_tablu();
+        napravi_histogram(trazena_kombinacija, histogram_trazene_kombinacije);
+        printf(tabla, tabla_args(znakovi_za_tablu));
+    }
 
-#line 191 "скочко.tab.c"
+
+
+#line 203 "скочко.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -236,15 +248,11 @@ extern int yydebug;
   enum yytokentype
   {
     _SKOCKO = 258,
-    _KARO = 259,
-    _HERC = 260,
-    _ZVEZDA = 261,
-    _PIK = 262,
-    _TREF = 263,
-    _ENTER = 264,
-    _NOVA_IGRA = 265,
-    _KRAJ = 266,
-    _ZNAK = 267
+    _ENTER = 259,
+    _NOVA = 260,
+    _IGRA = 261,
+    _KRAJ = 262,
+    _ZNAK = 263
   };
 #endif
 
@@ -252,12 +260,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 123 "скочко.y"
+#line 135 "скочко.y"
 
     int i;
     char *s;
 
-#line 261 "скочко.tab.c"
+#line 269 "скочко.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -576,19 +584,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   2
+#define YYLAST   6
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  13
+#define YYNTOKENS  9
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  4
+#define YYNNTS  6
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  5
+#define YYNRULES  8
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  7
+#define YYNSTATES  12
 
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   267
+#define YYMAXUTOK   263
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -626,14 +634,14 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12
+       5,     6,     7,     8
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   143,   143,   147,   151,   161
+       0,   151,   151,   152,   157,   156,   164,   168,   178
 };
 #endif
 
@@ -642,9 +650,9 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "_SKOCKO", "_KARO", "_HERC", "_ZVEZDA",
-  "_PIK", "_TREF", "_ENTER", "_NOVA_IGRA", "_KRAJ", "_ZNAK", "$accept",
-  "igra", "lista_kombinacija", "kombinacija", YY_NULLPTR
+  "$end", "error", "$undefined", "_SKOCKO", "_ENTER", "_NOVA", "_IGRA",
+  "_KRAJ", "_ZNAK", "$accept", "program", "igra", "$@1",
+  "lista_kombinacija", "kombinacija", YY_NULLPTR
 };
 #endif
 
@@ -653,12 +661,11 @@ static const char *const yytname[] =
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_int16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267
+       0,   256,   257,   258,   259,   260,   261,   262,   263
 };
 # endif
 
-#define YYPACT_NINF (-13)
+#define YYPACT_NINF (-7)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -672,7 +679,8 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -12,   -13,     1,   -13,   -10,   -13,   -13
+      -4,    -3,     0,    -7,    -7,    -7,    -7,    -6,    -7,    -7,
+      -2,    -7
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -680,19 +688,20 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     4,     0,     2,     3,     1,     5
+       0,     0,     0,     2,     4,     1,     3,     0,     7,     5,
+       6,     8
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -13,   -13,   -13,   -13
+      -7,    -7,     2,    -7,    -7,    -7
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     3,     4
+      -1,     2,     3,     7,     9,    10
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -700,31 +709,32 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,     5,     6
+       5,     1,     8,     4,     6,     1,    11
 };
 
 static const yytype_int8 yycheck[] =
 {
-      12,     0,    12
+       0,     5,     8,     6,     2,     5,     8
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    12,    14,    15,    16,     0,    12
+       0,     5,    10,    11,     6,     0,    11,    12,     8,    13,
+      14,     8
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    13,    14,    15,    16,    16
+       0,     9,    10,    10,    12,    11,    13,    14,    14
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     1,     1,     2
+       0,     2,     1,     2,     0,     4,     1,     1,     2
 };
 
 
@@ -1420,7 +1430,15 @@ yyreduce:
   switch (yyn)
     {
   case 4:
-#line 152 "скочко.y"
+#line 157 "скочко.y"
+    {
+      nova_igra();
+    }
+#line 1438 "скочко.tab.c"
+    break;
+
+  case 7:
+#line 169 "скочко.y"
     {
       unesena_kombinacija[trenutni_znak++] = (yyvsp[0].i);
       if ((trenutni_znak + 1)%5 == 0)
@@ -1430,11 +1448,11 @@ yyreduce:
       }
       
     }
-#line 1434 "скочко.tab.c"
+#line 1452 "скочко.tab.c"
     break;
 
-  case 5:
-#line 162 "скочко.y"
+  case 8:
+#line 179 "скочко.y"
     {
       unesena_kombinacija[trenutni_znak++] = (yyvsp[0].i);
       if ((trenutni_znak + 1)%5 == 0)
@@ -1443,11 +1461,11 @@ yyreduce:
         odigraj_kombinaciju();
       }
     }
-#line 1447 "скочко.tab.c"
+#line 1465 "скочко.tab.c"
     break;
 
 
-#line 1451 "скочко.tab.c"
+#line 1469 "скочко.tab.c"
 
       default: break;
     }
@@ -1679,7 +1697,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 172 "скочко.y"
+#line 189 "скочко.y"
 
 
 int yyerror(char *s) {
@@ -1699,16 +1717,6 @@ int main(){
 
     srand(time(0));
 
-    isprazni_tablu();
-    printf(tabla, tabla_args(znakovi_za_tablu));
-
-    int i;
-    for(i = 0; i < 6; ++i){
-      trazena_kombinacija[i] = rand() % 6;
-    }
-    printf("znaci su %d, %d, %d, %d\n", trazena_kombinacija[0],trazena_kombinacija[1],trazena_kombinacija[2],trazena_kombinacija[3]);
-
-    napravi_histogram(trazena_kombinacija, histogram_trazene_kombinacije);
 
     int synerr;
     init_symtab();

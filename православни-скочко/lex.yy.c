@@ -866,12 +866,12 @@ YY_RULE_SETUP
 case 8:
 YY_RULE_SETUP
 #line 23 "скочко.l"
-{return _NOVA_IGRA;}
+{return _NOVA;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 24 "скочко.l"
-{return _NOVA_IGRA;}
+{return _IGRA;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP

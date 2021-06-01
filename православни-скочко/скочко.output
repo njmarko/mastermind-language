@@ -1,26 +1,25 @@
 Terminals unused in grammar
 
     _SKOCKO
-    _KARO
-    _HERC
-    _ZVEZDA
-    _PIK
-    _TREF
     _ENTER
-    _NOVA_IGRA
     _KRAJ
 
 
 Grammar
 
-    0 $accept: igra $end
+    0 $accept: program $end
 
-    1 igra: lista_kombinacija
+    1 program: igra
+    2        | program igra
 
-    2 lista_kombinacija: kombinacija
+    3 $@1: %empty
 
-    3 kombinacija: _ZNAK
-    4            | kombinacija _ZNAK
+    4 igra: _NOVA _IGRA $@1 lista_kombinacija
+
+    5 lista_kombinacija: kombinacija
+
+    6 kombinacija: _ZNAK
+    7            | kombinacija _ZNAK
 
 
 Terminals, with rules where they appear
@@ -28,83 +27,128 @@ Terminals, with rules where they appear
     $end (0) 0
     error (256)
     _SKOCKO (258)
-    _KARO (259)
-    _HERC (260)
-    _ZVEZDA (261)
-    _PIK (262)
-    _TREF (263)
-    _ENTER (264)
-    _NOVA_IGRA (265)
-    _KRAJ (266)
-    _ZNAK <i> (267) 3 4
+    _ENTER (259)
+    _NOVA (260) 4
+    _IGRA (261) 4
+    _KRAJ (262)
+    _ZNAK <i> (263) 6 7
 
 
 Nonterminals, with rules where they appear
 
-    $accept (13)
+    $accept (9)
         on left: 0
-    igra (14)
-        on left: 1
-        on right: 0
-    lista_kombinacija (15)
-        on left: 2
-        on right: 1
-    kombinacija (16)
-        on left: 3 4
-        on right: 2 4
+    program (10)
+        on left: 1 2
+        on right: 0 2
+    igra (11)
+        on left: 4
+        on right: 1 2
+    $@1 (12)
+        on left: 3
+        on right: 4
+    lista_kombinacija (13)
+        on left: 5
+        on right: 4
+    kombinacija (14)
+        on left: 6 7
+        on right: 5 7
 
 
 State 0
 
-    0 $accept: . igra $end
+    0 $accept: . program $end
 
-    _ZNAK  shift, and go to state 1
+    _NOVA  shift, and go to state 1
 
-    igra               go to state 2
-    lista_kombinacija  go to state 3
-    kombinacija        go to state 4
+    program  go to state 2
+    igra     go to state 3
 
 
 State 1
 
-    3 kombinacija: _ZNAK .
+    4 igra: _NOVA . _IGRA $@1 lista_kombinacija
 
-    $default  reduce using rule 3 (kombinacija)
+    _IGRA  shift, and go to state 4
 
 
 State 2
 
-    0 $accept: igra . $end
+    0 $accept: program . $end
+    2 program: program . igra
 
-    $end  shift, and go to state 5
+    $end   shift, and go to state 5
+    _NOVA  shift, and go to state 1
+
+    igra  go to state 6
 
 
 State 3
 
-    1 igra: lista_kombinacija .
+    1 program: igra .
 
-    $default  reduce using rule 1 (igra)
+    $default  reduce using rule 1 (program)
 
 
 State 4
 
-    2 lista_kombinacija: kombinacija .
-    4 kombinacija: kombinacija . _ZNAK
+    4 igra: _NOVA _IGRA . $@1 lista_kombinacija
 
-    _ZNAK  shift, and go to state 6
+    $default  reduce using rule 3 ($@1)
 
-    $default  reduce using rule 2 (lista_kombinacija)
+    $@1  go to state 7
 
 
 State 5
 
-    0 $accept: igra $end .
+    0 $accept: program $end .
 
     $default  accept
 
 
 State 6
 
-    4 kombinacija: kombinacija _ZNAK .
+    2 program: program igra .
 
-    $default  reduce using rule 4 (kombinacija)
+    $default  reduce using rule 2 (program)
+
+
+State 7
+
+    4 igra: _NOVA _IGRA $@1 . lista_kombinacija
+
+    _ZNAK  shift, and go to state 8
+
+    lista_kombinacija  go to state 9
+    kombinacija        go to state 10
+
+
+State 8
+
+    6 kombinacija: _ZNAK .
+
+    $default  reduce using rule 6 (kombinacija)
+
+
+State 9
+
+    4 igra: _NOVA _IGRA $@1 lista_kombinacija .
+
+    $default  reduce using rule 4 (igra)
+
+
+State 10
+
+    5 lista_kombinacija: kombinacija .
+    7 kombinacija: kombinacija . _ZNAK
+
+    _ZNAK  shift, and go to state 11
+
+    $default  reduce using rule 5 (lista_kombinacija)
+
+
+State 11
+
+    7 kombinacija: kombinacija _ZNAK .
+
+    $default  reduce using rule 7 (kombinacija)

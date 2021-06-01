@@ -50,15 +50,11 @@ extern int yydebug;
   enum yytokentype
   {
     _SKOCKO = 258,
-    _KARO = 259,
-    _HERC = 260,
-    _ZVEZDA = 261,
-    _PIK = 262,
-    _TREF = 263,
-    _ENTER = 264,
-    _NOVA_IGRA = 265,
-    _KRAJ = 266,
-    _ZNAK = 267
+    _ENTER = 259,
+    _NOVA = 260,
+    _IGRA = 261,
+    _KRAJ = 262,
+    _ZNAK = 263
   };
 #endif
 
@@ -66,12 +62,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 123 "скочко.y"
+#line 135 "скочко.y"
 
     int i;
     char *s;
 
-#line 75 "скочко.tab.h"
+#line 71 "скочко.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
