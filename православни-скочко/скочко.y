@@ -64,11 +64,11 @@
     void napravi_histogram(enum Znak * kombinacija, enum Znak * histogram){
       int i;
       // postavim sve vrednosti na nula u histogramu
-      for(i = 0; i < 6; ++i){
+      for(i = 0; i < BROJ_ZNAKOVA; ++i){
         histogram[i] = 0;
       }
-      // napravim
-      for(i = 0; i < 4; ++i){
+      // napravim histogram na osnovu prosledjene kombinacije
+      for(i = 0; i < VELICINA_KOMBINACIJE; ++i){
         histogram[kombinacija[i]]++;
       }
     }
@@ -80,7 +80,7 @@
       netacna_pozicija = 0;
       int i;
       // prebroj znakove koji su na netacnim pozicijama
-      for(int i = 0; i < 6; ++i){
+      for(int i = 0; i < BROJ_ZNAKOVA; ++i){
         if(histogram_unesene_kombinacije[i] <= histogram_trazene_kombinacije[i]){
           netacna_pozicija += histogram_unesene_kombinacije[i];
         } else {
@@ -89,8 +89,7 @@
       }
 
       // prebroj znakove na tacnim pozicijama
-      for (int i = 0; i < 4; ++i){
-        printf("\ntrazena %d = %d\t unesena %d = %d", i, trazena_kombinacija[i], i, kombinacija1[i]);
+      for (int i = 0; i < VELICINA_KOMBINACIJE; ++i){
         if(kombinacija1[i] == trazena_kombinacija[i]){
           tacna_pozicija++;
         }
@@ -101,7 +100,7 @@
     void odigraj_kombinaciju(){
       evaluiraj_poziciju(unesena_kombinacija, trazena_kombinacija);
       int i;
-      for(i = 0; i < 4; ++i){
+      for(i = 0; i < VELICINA_KOMBINACIJE; ++i){
         znakovi_za_tablu[broj_unetih_znakova++] = znakovi_za_ispis[unesena_kombinacija[i]];
       }
       for(i = 0; i < tacna_pozicija; ++i){
@@ -110,13 +109,11 @@
       for(i = 0; i < netacna_pozicija; ++i){
         znakovi_za_tablu[broj_unetih_znakova++] = znak_zuti;
       }
-      for(i = 0; i < 4 - tacna_pozicija - netacna_pozicija; ++i){
+      for(i = 0; i < VELICINA_KOMBINACIJE - tacna_pozicija - netacna_pozicija; ++i){
         znakovi_za_tablu[broj_unetih_znakova++] = znak_prazan;
       }
 
       printf(tabla, tabla_args(znakovi_za_tablu));
-
-      printf("\nBroj tacnih: %d \t broj netacnih: %d", tacna_pozicija, netacna_pozicija);
     }
 
 

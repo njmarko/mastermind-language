@@ -133,11 +133,11 @@
     void napravi_histogram(enum Znak * kombinacija, enum Znak * histogram){
       int i;
       // postavim sve vrednosti na nula u histogramu
-      for(i = 0; i < 6; ++i){
+      for(i = 0; i < BROJ_ZNAKOVA; ++i){
         histogram[i] = 0;
       }
-      // napravim
-      for(i = 0; i < 4; ++i){
+      // napravim histogram na osnovu prosledjene kombinacije
+      for(i = 0; i < VELICINA_KOMBINACIJE; ++i){
         histogram[kombinacija[i]]++;
       }
     }
@@ -149,7 +149,7 @@
       netacna_pozicija = 0;
       int i;
       // prebroj znakove koji su na netacnim pozicijama
-      for(int i = 0; i < 6; ++i){
+      for(int i = 0; i < BROJ_ZNAKOVA; ++i){
         if(histogram_unesene_kombinacije[i] <= histogram_trazene_kombinacije[i]){
           netacna_pozicija += histogram_unesene_kombinacije[i];
         } else {
@@ -158,8 +158,7 @@
       }
 
       // prebroj znakove na tacnim pozicijama
-      for (int i = 0; i < 4; ++i){
-        printf("\ntrazena %d = %d\t unesena %d = %d", i, trazena_kombinacija[i], i, kombinacija1[i]);
+      for (int i = 0; i < VELICINA_KOMBINACIJE; ++i){
         if(kombinacija1[i] == trazena_kombinacija[i]){
           tacna_pozicija++;
         }
@@ -170,7 +169,7 @@
     void odigraj_kombinaciju(){
       evaluiraj_poziciju(unesena_kombinacija, trazena_kombinacija);
       int i;
-      for(i = 0; i < 4; ++i){
+      for(i = 0; i < VELICINA_KOMBINACIJE; ++i){
         znakovi_za_tablu[broj_unetih_znakova++] = znakovi_za_ispis[unesena_kombinacija[i]];
       }
       for(i = 0; i < tacna_pozicija; ++i){
@@ -179,18 +178,16 @@
       for(i = 0; i < netacna_pozicija; ++i){
         znakovi_za_tablu[broj_unetih_znakova++] = znak_zuti;
       }
-      for(i = 0; i < 4 - tacna_pozicija - netacna_pozicija; ++i){
+      for(i = 0; i < VELICINA_KOMBINACIJE - tacna_pozicija - netacna_pozicija; ++i){
         znakovi_za_tablu[broj_unetih_znakova++] = znak_prazan;
       }
 
       printf(tabla, tabla_args(znakovi_za_tablu));
-
-      printf("\nBroj tacnih: %d \t broj netacnih: %d", tacna_pozicija, netacna_pozicija);
     }
 
 
 
-#line 194 "скочко.tab.c"
+#line 191 "скочко.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -255,12 +252,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 126 "скочко.y"
+#line 123 "скочко.y"
 
     int i;
     char *s;
 
-#line 264 "скочко.tab.c"
+#line 261 "скочко.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -636,7 +633,7 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   146,   146,   150,   154,   164
+       0,   143,   143,   147,   151,   161
 };
 #endif
 
@@ -1423,7 +1420,7 @@ yyreduce:
   switch (yyn)
     {
   case 4:
-#line 155 "скочко.y"
+#line 152 "скочко.y"
     {
       unesena_kombinacija[trenutni_znak++] = (yyvsp[0].i);
       if ((trenutni_znak + 1)%5 == 0)
@@ -1433,11 +1430,11 @@ yyreduce:
       }
       
     }
-#line 1437 "скочко.tab.c"
+#line 1434 "скочко.tab.c"
     break;
 
   case 5:
-#line 165 "скочко.y"
+#line 162 "скочко.y"
     {
       unesena_kombinacija[trenutni_znak++] = (yyvsp[0].i);
       if ((trenutni_znak + 1)%5 == 0)
@@ -1446,11 +1443,11 @@ yyreduce:
         odigraj_kombinaciju();
       }
     }
-#line 1450 "скочко.tab.c"
+#line 1447 "скочко.tab.c"
     break;
 
 
-#line 1454 "скочко.tab.c"
+#line 1451 "скочко.tab.c"
 
       default: break;
     }
@@ -1682,7 +1679,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 175 "скочко.y"
+#line 172 "скочко.y"
 
 
 int yyerror(char *s) {
