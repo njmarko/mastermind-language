@@ -137,6 +137,17 @@
     }
 
 
+    void unesi_znak(enum Znak znak){
+      unesena_kombinacija[trenutni_znak++] = znak;
+      if ((trenutni_znak + 1)%5 == 0)
+      {
+        trenutni_znak = 0;
+        odigraj_kombinaciju();
+      }
+
+    }
+
+
 %}
 
 
@@ -146,7 +157,6 @@
 }
 
 
-%token _ENTER
 %token _NOVA_IGRA
 %token _KRAJ
 %token <i> _ZNAK
@@ -193,22 +203,11 @@ lista_kombinacija
 kombinacija
     : _ZNAK 
     {
-      unesena_kombinacija[trenutni_znak++] = $1;
-      if ((trenutni_znak + 1)%5 == 0)
-      {
-        trenutni_znak = 0;
-        odigraj_kombinaciju();
-      }
-      
+      unesi_znak($1);
     }
     | kombinacija _ZNAK
     {
-      unesena_kombinacija[trenutni_znak++] = $2;
-      if ((trenutni_znak + 1)%5 == 0)
-      {
-        trenutni_znak = 0;
-        odigraj_kombinaciju();
-      }
+      unesi_znak($2);
     }
     ;
 

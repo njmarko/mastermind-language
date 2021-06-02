@@ -1,8 +1,3 @@
-Terminals unused in grammar
-
-    _ENTER
-
-
 Grammar
 
     0 $accept: program $end
@@ -32,35 +27,34 @@ Terminals, with rules where they appear
 
     $end (0) 0
     error (256)
-    _ENTER (258)
-    _NOVA_IGRA (259) 6 8
-    _KRAJ (260) 1 3
-    _ZNAK <i> (261) 4 11 12
+    _NOVA_IGRA (258) 6 8
+    _KRAJ (259) 1 3
+    _ZNAK <i> (260) 4 11 12
 
 
 Nonterminals, with rules where they appear
 
-    $accept (7)
+    $accept (6)
         on left: 0
-    program (8)
+    program (7)
         on left: 1
         on right: 0
-    znakovi_pre_pocetka (9)
+    znakovi_pre_pocetka (8)
         on left: 2 3 4
         on right: 1 3 4
-    igra (10)
+    igra (9)
         on left: 6 8
         on right: 1 8
-    $@1 (11)
+    $@1 (10)
         on left: 5
         on right: 6
-    $@2 (12)
+    $@2 (11)
         on left: 7
         on right: 8
-    lista_kombinacija (13)
+    lista_kombinacija (12)
         on left: 9 10
         on right: 6 8
-    kombinacija (14)
+    kombinacija (13)
         on left: 11 12
         on right: 10 12
 
