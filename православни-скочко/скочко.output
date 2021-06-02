@@ -2,24 +2,31 @@ Terminals unused in grammar
 
     _SKOCKO
     _ENTER
-    _KRAJ
 
 
 Grammar
 
     0 $accept: program $end
 
-    1 program: igra
-    2        | program igra
+    1 program: znakovi_pre_pocetka igra _KRAJ
 
-    3 $@1: %empty
+    2 znakovi_pre_pocetka: %empty
+    3                    | znakovi_pre_pocetka _KRAJ
+    4                    | znakovi_pre_pocetka _ZNAK
+    5                    | znakovi_pre_pocetka _IGRA
 
-    4 igra: _NOVA _IGRA $@1 lista_kombinacija
+    6 $@1: %empty
 
-    5 lista_kombinacija: kombinacija
+    7 igra: _NOVA _IGRA $@1 lista_kombinacija
 
-    6 kombinacija: _ZNAK
-    7            | kombinacija _ZNAK
+    8 lista_kombinacija: kombinacija
+
+    9 $@2: %empty
+
+   10 lista_kombinacija: _NOVA _IGRA $@2 lista_kombinacija
+
+   11 kombinacija: _ZNAK
+   12            | kombinacija _ZNAK
 
 
 Terminals, with rules where they appear
@@ -28,10 +35,10 @@ Terminals, with rules where they appear
     error (256)
     _SKOCKO (258)
     _ENTER (259)
-    _NOVA (260) 4
-    _IGRA (261) 4
-    _KRAJ (262)
-    _ZNAK <i> (263) 6 7
+    _NOVA (260) 7 10
+    _IGRA (261) 5 7 10
+    _KRAJ (262) 1 3
+    _ZNAK <i> (263) 4 11 12
 
 
 Nonterminals, with rules where they appear
@@ -39,116 +46,189 @@ Nonterminals, with rules where they appear
     $accept (9)
         on left: 0
     program (10)
-        on left: 1 2
-        on right: 0 2
-    igra (11)
-        on left: 4
-        on right: 1 2
-    $@1 (12)
-        on left: 3
-        on right: 4
-    lista_kombinacija (13)
-        on left: 5
-        on right: 4
-    kombinacija (14)
-        on left: 6 7
-        on right: 5 7
+        on left: 1
+        on right: 0
+    znakovi_pre_pocetka (11)
+        on left: 2 3 4 5
+        on right: 1 3 4 5
+    igra (12)
+        on left: 7
+        on right: 1
+    $@1 (13)
+        on left: 6
+        on right: 7
+    lista_kombinacija (14)
+        on left: 8 10
+        on right: 7 10
+    $@2 (15)
+        on left: 9
+        on right: 10
+    kombinacija (16)
+        on left: 11 12
+        on right: 8 12
 
 
 State 0
 
     0 $accept: . program $end
 
-    _NOVA  shift, and go to state 1
+    $default  reduce using rule 2 (znakovi_pre_pocetka)
 
-    program  go to state 2
-    igra     go to state 3
+    program              go to state 1
+    znakovi_pre_pocetka  go to state 2
 
 
 State 1
 
-    4 igra: _NOVA . _IGRA $@1 lista_kombinacija
+    0 $accept: program . $end
 
-    _IGRA  shift, and go to state 4
+    $end  shift, and go to state 3
 
 
 State 2
 
-    0 $accept: program . $end
-    2 program: program . igra
+    1 program: znakovi_pre_pocetka . igra _KRAJ
+    3 znakovi_pre_pocetka: znakovi_pre_pocetka . _KRAJ
+    4                    | znakovi_pre_pocetka . _ZNAK
+    5                    | znakovi_pre_pocetka . _IGRA
 
-    $end   shift, and go to state 5
-    _NOVA  shift, and go to state 1
+    _NOVA  shift, and go to state 4
+    _IGRA  shift, and go to state 5
+    _KRAJ  shift, and go to state 6
+    _ZNAK  shift, and go to state 7
 
-    igra  go to state 6
+    igra  go to state 8
 
 
 State 3
-
-    1 program: igra .
-
-    $default  reduce using rule 1 (program)
-
-
-State 4
-
-    4 igra: _NOVA _IGRA . $@1 lista_kombinacija
-
-    $default  reduce using rule 3 ($@1)
-
-    $@1  go to state 7
-
-
-State 5
 
     0 $accept: program $end .
 
     $default  accept
 
 
+State 4
+
+    7 igra: _NOVA . _IGRA $@1 lista_kombinacija
+
+    _IGRA  shift, and go to state 9
+
+
+State 5
+
+    5 znakovi_pre_pocetka: znakovi_pre_pocetka _IGRA .
+
+    $default  reduce using rule 5 (znakovi_pre_pocetka)
+
+
 State 6
 
-    2 program: program igra .
+    3 znakovi_pre_pocetka: znakovi_pre_pocetka _KRAJ .
 
-    $default  reduce using rule 2 (program)
+    $default  reduce using rule 3 (znakovi_pre_pocetka)
 
 
 State 7
 
-    4 igra: _NOVA _IGRA $@1 . lista_kombinacija
+    4 znakovi_pre_pocetka: znakovi_pre_pocetka _ZNAK .
 
-    _ZNAK  shift, and go to state 8
-
-    lista_kombinacija  go to state 9
-    kombinacija        go to state 10
+    $default  reduce using rule 4 (znakovi_pre_pocetka)
 
 
 State 8
 
-    6 kombinacija: _ZNAK .
+    1 program: znakovi_pre_pocetka igra . _KRAJ
 
-    $default  reduce using rule 6 (kombinacija)
+    _KRAJ  shift, and go to state 10
 
 
 State 9
 
-    4 igra: _NOVA _IGRA $@1 lista_kombinacija .
+    7 igra: _NOVA _IGRA . $@1 lista_kombinacija
 
-    $default  reduce using rule 4 (igra)
+    $default  reduce using rule 6 ($@1)
+
+    $@1  go to state 11
 
 
 State 10
 
-    5 lista_kombinacija: kombinacija .
-    7 kombinacija: kombinacija . _ZNAK
+    1 program: znakovi_pre_pocetka igra _KRAJ .
 
-    _ZNAK  shift, and go to state 11
-
-    $default  reduce using rule 5 (lista_kombinacija)
+    $default  reduce using rule 1 (program)
 
 
 State 11
 
-    7 kombinacija: kombinacija _ZNAK .
+    7 igra: _NOVA _IGRA $@1 . lista_kombinacija
 
-    $default  reduce using rule 7 (kombinacija)
+    _NOVA  shift, and go to state 12
+    _ZNAK  shift, and go to state 13
+
+    lista_kombinacija  go to state 14
+    kombinacija        go to state 15
+
+
+State 12
+
+   10 lista_kombinacija: _NOVA . _IGRA $@2 lista_kombinacija
+
+    _IGRA  shift, and go to state 16
+
+
+State 13
+
+   11 kombinacija: _ZNAK .
+
+    $default  reduce using rule 11 (kombinacija)
+
+
+State 14
+
+    7 igra: _NOVA _IGRA $@1 lista_kombinacija .
+
+    $default  reduce using rule 7 (igra)
+
+
+State 15
+
+    8 lista_kombinacija: kombinacija .
+   12 kombinacija: kombinacija . _ZNAK
+
+    _ZNAK  shift, and go to state 17
+
+    $default  reduce using rule 8 (lista_kombinacija)
+
+
+State 16
+
+   10 lista_kombinacija: _NOVA _IGRA . $@2 lista_kombinacija
+
+    $default  reduce using rule 9 ($@2)
+
+    $@2  go to state 18
+
+
+State 17
+
+   12 kombinacija: kombinacija _ZNAK .
+
+    $default  reduce using rule 12 (kombinacija)
+
+
+State 18
+
+   10 lista_kombinacija: _NOVA _IGRA $@2 . lista_kombinacija
+
+    _NOVA  shift, and go to state 12
+    _ZNAK  shift, and go to state 13
+
+    lista_kombinacija  go to state 19
+    kombinacija        go to state 15
+
+
+State 19
+
+   10 lista_kombinacija: _NOVA _IGRA $@2 lista_kombinacija .
+
+    $default  reduce using rule 10 (lista_kombinacija)

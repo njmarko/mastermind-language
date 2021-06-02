@@ -117,6 +117,13 @@
       printf(tabla, tabla_args(znakovi_za_tablu));
     }
 
+    void napravi_random_trazenu_kombinaciju(){
+      int i;
+      for(i = 0; i < VELICINA_KOMBINACIJE; ++i){
+        trazena_kombinacija[i] = rand() % 6;
+      }
+    }
+
 
     void nova_igra(){
         trenutni_znak = 0;
@@ -124,6 +131,7 @@
         tacna_pozicija = 0;
         netacna_pozicija = 0;
         isprazni_tablu();
+        napravi_random_trazenu_kombinaciju();
         napravi_histogram(trazena_kombinacija, histogram_trazene_kombinacije);
         printf(tabla, tabla_args(znakovi_za_tablu));
     }
@@ -148,9 +156,27 @@
 %%
 
 program
-    : igra
-    | program igra
+    : znakovi_pre_pocetka igra _KRAJ
+    {
+      YYACCEPT;
+    }
     ; 
+
+znakovi_pre_pocetka
+    : /* empty */
+    | znakovi_pre_pocetka _KRAJ
+    {
+      YYACCEPT;
+    }
+    | znakovi_pre_pocetka _ZNAK
+    {
+      printf("Започните нову игру командом \"НОВА ИГРА\".");
+    }
+    | znakovi_pre_pocetka _IGRA
+    {
+      printf("Започните нову игру командом \"НОВА ИГРА\".");
+    }
+    ;
 
 igra
     : _NOVA _IGRA 
@@ -162,6 +188,11 @@ igra
 
 lista_kombinacija
     : kombinacija
+    | _NOVA _IGRA
+    {
+      nova_igra();
+    } 
+    lista_kombinacija
     ;
 
 kombinacija
@@ -205,12 +236,12 @@ int main(){
 
     srand(time(0));
 
-
     int synerr;
     init_symtab();
     output = fopen("output.asm", "w+");
 
     synerr = yyparse();
+    printf("\nДовиђења!\n");
 
 
     clear_symtab();
