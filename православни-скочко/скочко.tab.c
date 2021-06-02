@@ -95,8 +95,8 @@
     #define komb_trazena_args(a) a[0], a[1], a[2], a[3]
     #define NEISPRAVAN_ZNAK -1
 
-    char * tabla = "\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%1s|%1s|%1s|%1s|\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%1s|%1s|%1s|%1s|\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%1s|%1s|%1s|%1s|\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%1s|%1s|%1s|%1s|\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%1s|%1s|%1s|%1s|\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%1s|%1s|%1s|%1s|\n\0";
-    char * red = "\n|%-1s  |%-1s  |%-1s  |%-1s  |   |%1s|%1s|%1s|%1s|\n\0";
+    char * tabla = "\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%-1s |%-1s |%-1s |%-1s |\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%-1s |%-1s |%-1s |%-1s |\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%-1s |%-1s |%-1s |%-1s |\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%-1s |%-1s |%-1s |%-1s |\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%-1s |%-1s |%-1s |%-1s |\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%-1s |%-1s |%-1s |%-1s |\n\0";
+    char * red = "\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%-1s |%-1s |%-1s |%-1s |\n\0";
     char * ispravna_kombinacija_ispis = "\n\033[1;32mНажалост нисте успели да пронађете тражену комбинацију.\n\033[0m| %-1s  | %-1s  | %-1s  | %-1s  |\033[1;32m је тражена комбинација.\033[0m\n\0";
     char * poruka_unos = "\n\033[1;32mСКОЧКО[1] ТРЕФ[2] ПИК[3] ХЕРЦ[4] КАРО[5] ЗВЕЗДА[6] (КРАЈ за излазак)\033[0m\n\0";
     char * poruka_kombinacija_pogodjena = "\n\033[1;32mЧЕСТИТАМО! Пронашли сте тражену комбинацију!\033[0m\n\0";
@@ -111,8 +111,8 @@
     #define znak_zvezda  "\033[1;33m\u2605\033[0m\0"
     #define znak_tref  "\033[1;34m\u2663\033[0m\0"
     #define znak_herc  "\033[1;31m\u2665\033[0m\0"
-    #define znak_crveni  "\033[1;31mO\033[0m\0"
-    #define znak_zuti  "\033[1;33mO\033[0m\0"
+    #define znak_crveni  "\033[1;31m\u25CF\033[0m\0"
+    #define znak_zuti  "\033[1;33m\u25CF\033[0m\0"
     #define znak_prazan  "\0\033[0m\0"
 
     char * znakovi_za_ispis[9] = {znak_skocko, znak_tref, znak_pik, znak_herc, znak_karo, znak_zvezda};
