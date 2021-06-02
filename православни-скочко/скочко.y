@@ -23,9 +23,16 @@
     #define BROJ_ZNAKOVA_TABLA 48
     #define tabla_args(a) a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14], a[15], a[16], a[17], a[18], a[19], a[20], a[21], a[22], a[23], a[24], a[25], a[26], a[27], a[28], a[29], a[30], a[31], a[32], a[33], a[34], a[35], a[36], a[37], a[38], a[39], a[40], a[41], a[42], a[43], a[44], a[45], a[46], a[47]
     #define red_args(a) a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]
+    #define komb_trazena_args(a) a[0], a[1], a[2], a[3]
 
     char * tabla = "\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n\0";
     char * red = "\n|%-1s |%-1s |%-1s |%-1s |   |%1s|%1s|%1s|%1s|\n\0";
+    char * ispravna_kombinacija_ispis = "\n\033[1;32mНажалост нисте успели да пронађете тражену комбинацију.\n\033[0m| %-1s | %-1s | %-1s | %-1s |\n\033[1;32m је тражена комбинација.\033[0m\n\0";
+    char * poruka_unos = "\n\033[1;32mСКОЧКО[1] ТРЕФ[2] ПИК[3] ХЕРЦ[4] КАРО[5] ЗВЕЗДА[6] (КРАЈ за излазак)\033[0m\n\0";
+    char * poruka_kombinacija_pogodjena = "\n\033[1;32mЧЕСТИТАМО! Пронашли сте тражену комбинацију!\033[0m\n\0";
+    char * poruka_kraj_partije = "\n\033[1;32mИгра је завршена. Укуцајте команду \"НОВА ИГРА\" или \"КРАЈ\" за излазак.\033[0m\n\0";
+    char * poruka_pocetak_partije = "\n\033[1;32mЗапочните нову игру командом \"ЗАПОЧНИ\" или \"НОВА ИГРА\".\033[0m\n\0";
+    char * poruka_kraj_programa = "\n\033[1;32mОдустали сте од игре. Довиђења!\033[0m\n\0";
 
     #define znak_pik  "\033[1;34m\u2660\033[0m\0"
     #define znak_karo  "\033[1;31m\u2666\033[0m\0"
@@ -47,6 +54,7 @@
     enum Znak histogram_trazene_kombinacije[6];
 
     char* znakovi_za_tablu[BROJ_ZNAKOVA_TABLA];
+    char* znakovi_trazena_kombinacija[VELICINA_KOMBINACIJE];
     
     int tacna_pozicija = 0;
     int netacna_pozicija = 0 ;
@@ -121,6 +129,7 @@
       int i;
       for(i = 0; i < VELICINA_KOMBINACIJE; ++i){
         trazena_kombinacija[i] = rand() % 6;
+        znakovi_trazena_kombinacija[i] = znakovi_za_ispis[trazena_kombinacija[i]];
       }
     }
 
@@ -134,17 +143,36 @@
         napravi_random_trazenu_kombinaciju();
         napravi_histogram(trazena_kombinacija, histogram_trazene_kombinacije);
         printf(tabla, tabla_args(znakovi_za_tablu));
+        printf("%s", poruka_unos);
     }
 
+    void ispis_nakon_unete_kombinacije(){
+        if(tacna_pozicija == VELICINA_KOMBINACIJE){
+          printf("%s", poruka_kombinacija_pogodjena);
+          printf("%s", poruka_kraj_partije);
+        } else if(broj_unetih_znakova >= BROJ_ZNAKOVA_TABLA){
+          printf(ispravna_kombinacija_ispis, komb_trazena_args(znakovi_trazena_kombinacija));
+          printf("%s", poruka_kraj_partije);
+        } else {
+          printf("%s", poruka_unos);
+        }
+    }
 
     void unesi_znak(enum Znak znak){
-      unesena_kombinacija[trenutni_znak++] = znak;
-      if ((trenutni_znak + 1)%5 == 0)
-      {
-        trenutni_znak = 0;
-        odigraj_kombinaciju();
+      // provera da li je trenutna igra zavrsena
+      if(broj_unetih_znakova >= BROJ_ZNAKOVA_TABLA || tacna_pozicija == VELICINA_KOMBINACIJE){
+        printf("%s", poruka_kraj_partije);
       }
-
+      else
+      {
+        unesena_kombinacija[trenutni_znak++] = znak;
+        if ((trenutni_znak + 1) % 5 == 0)
+        {
+          trenutni_znak = 0;
+          odigraj_kombinaciju();
+          ispis_nakon_unete_kombinacije();
+        }
+      }
     }
 
 
@@ -178,7 +206,7 @@ znakovi_pre_pocetka
     }
     | znakovi_pre_pocetka _ZNAK
     {
-      printf("\nЗапочните нову игру командом \"ЗАПОЧНИ\" или \"НОВА ИГРА\".\n");
+      printf("%s", poruka_pocetak_partije);
     }
     ;
 
@@ -234,8 +262,9 @@ int main(){
     init_symtab();
     output = fopen("output.asm", "w+");
 
+    printf("%s", poruka_pocetak_partije);
     synerr = yyparse();
-    printf("\nДовиђења!\n");
+    printf("%s", poruka_kraj_programa);
 
 
     clear_symtab();

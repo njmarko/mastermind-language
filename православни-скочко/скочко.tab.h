@@ -59,7 +59,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 154 "скочко.y"
+#line 182 "скочко.y"
 
     int i;
     char *s;

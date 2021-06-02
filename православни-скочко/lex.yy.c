@@ -877,37 +877,37 @@ YY_RULE_SETUP
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 23 "скочко.l"
+#line 24 "скочко.l"
 {return _NOVA_IGRA;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 24 "скочко.l"
+#line 25 "скочко.l"
 {return _NOVA_IGRA;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 25 "скочко.l"
+#line 26 "скочко.l"
 {return _KRAJ;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 27 "скочко.l"
-{printf("Непознат унос %s. Пробајте поново на ћирилици.\n", yytext);}
+#line 28 "скочко.l"
+{printf("\n\033[1;32mНепознат унос \033[1;34m%s.\033[1;32m Пробајте поново на ћирилици.\033[0m\n", yytext);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 28 "скочко.l"
-{printf("Непознат унос %s. Пробајте поново.\n", yytext);}
+#line 29 "скочко.l"
+{printf("\n\033[1;32mНепознат унос \033[1;34m%s.\033[1;32m Пробајте поново.\033[0m\n", yytext);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 29 "скочко.l"
-{printf("Непознат унос %s. Пробајте поново.\n", yytext);}
+#line 30 "скочко.l"
+{printf("\n\033[1;32mНепознат унос \033[1;34m%s.\033[1;32m Пробајте поново.\033[0m\n", yytext);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 30 "скочко.l"
+#line 31 "скочко.l"
 ECHO;
 	YY_BREAK
 #line 914 "lex.yy.c"
@@ -1927,5 +1927,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 30 "скочко.l"
+#line 31 "скочко.l"
 
