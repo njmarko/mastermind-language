@@ -590,16 +590,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  3
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   8
+#define YYLAST   11
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  7
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  8
+#define YYNNTS  9
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  12
+#define YYNRULES  14
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  17
+#define YYNSTATES  20
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   261
@@ -647,8 +647,8 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   157,   157,   164,   165,   169,   177,   176,   184,   186,
-     185,   193,   203
+       0,   157,   157,   164,   165,   169,   177,   176,   182,   181,
+     189,   191,   190,   198,   208
 };
 #endif
 
@@ -658,8 +658,8 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "_ENTER", "_NOVA_IGRA", "_KRAJ", "_ZNAK",
-  "$accept", "program", "znakovi_pre_pocetka", "igra", "$@1",
-  "lista_kombinacija", "$@2", "kombinacija", YY_NULLPTR
+  "$accept", "program", "znakovi_pre_pocetka", "igra", "$@1", "$@2",
+  "lista_kombinacija", "$@3", "kombinacija", YY_NULLPTR
 };
 #endif
 
@@ -686,8 +686,8 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -8,     4,    -4,    -8,    -8,    -8,    -8,     1,    -1,    -8,
-      -8,    -8,    -8,     2,    -1,    -8,    -8
+      -8,     4,    -4,    -8,    -8,    -8,    -8,     2,    -1,    -8,
+      -8,    -8,    -8,    -8,     5,    -1,    -1,    -8,    -8,    -8
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -695,20 +695,20 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       3,     0,     0,     1,     6,     4,     5,     0,     0,     2,
-       9,    11,     7,     8,     0,    12,    10
+       3,     0,     0,     1,     6,     4,     5,     0,     0,     8,
+       2,    11,    13,     7,    10,     0,     0,    14,     9,    12
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -8,    -8,    -8,    -8,    -8,    -7,    -8,    -8
+      -8,    -8,    -8,    -8,    -8,    -8,    -7,    -8,    -8
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,     2,     7,     8,    12,    14,    13
+      -1,     1,     2,     7,     8,    15,    13,    16,    14
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -716,34 +716,36 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       4,     5,     6,    10,     3,    11,     9,    16,    15
+       4,     5,     6,    11,     3,    12,     9,    10,    18,    19,
+       0,    17
 };
 
 static const yytype_int8 yycheck[] =
 {
-       4,     5,     6,     4,     0,     6,     5,    14,     6
+       4,     5,     6,     4,     0,     6,     4,     5,    15,    16,
+      -1,     6
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     8,     9,     0,     4,     5,     6,    10,    11,     5,
-       4,     6,    12,    14,    13,     6,    12
+       0,     8,     9,     0,     4,     5,     6,    10,    11,     4,
+       5,     4,     6,    13,    15,    12,    14,     6,    13,    13
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,     7,     8,     9,     9,     9,    11,    10,    12,    13,
-      12,    14,    14
+       0,     7,     8,     9,     9,     9,    11,    10,    12,    10,
+      13,    14,    13,    15,    15
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     3,     0,     2,     2,     0,     3,     1,     0,
-       3,     1,     2
+       0,     2,     3,     0,     2,     2,     0,     3,     0,     4,
+       1,     0,     3,     1,     2
 };
 
 
@@ -1443,7 +1445,7 @@ yyreduce:
     {
       YYACCEPT;
     }
-#line 1447 "скочко.tab.c"
+#line 1449 "скочко.tab.c"
     break;
 
   case 4:
@@ -1451,15 +1453,15 @@ yyreduce:
     {
       YYACCEPT;
     }
-#line 1455 "скочко.tab.c"
+#line 1457 "скочко.tab.c"
     break;
 
   case 5:
 #line 170 "скочко.y"
     {
-      printf("Започните нову игру командом \"НОВА ИГРА\".");
+      printf("\nЗапочните нову игру командом \"ЗАПОЧНИ\" или \"НОВА ИГРА\".\n");
     }
-#line 1463 "скочко.tab.c"
+#line 1465 "скочко.tab.c"
     break;
 
   case 6:
@@ -1467,19 +1469,27 @@ yyreduce:
     {
       nova_igra();
     }
-#line 1471 "скочко.tab.c"
+#line 1473 "скочко.tab.c"
     break;
 
-  case 9:
-#line 186 "скочко.y"
+  case 8:
+#line 182 "скочко.y"
     {
       nova_igra();
     }
-#line 1479 "скочко.tab.c"
+#line 1481 "скочко.tab.c"
     break;
 
   case 11:
-#line 194 "скочко.y"
+#line 191 "скочко.y"
+    {
+      nova_igra();
+    }
+#line 1489 "скочко.tab.c"
+    break;
+
+  case 13:
+#line 199 "скочко.y"
     {
       unesena_kombinacija[trenutni_znak++] = (yyvsp[0].i);
       if ((trenutni_znak + 1)%5 == 0)
@@ -1489,11 +1499,11 @@ yyreduce:
       }
       
     }
-#line 1493 "скочко.tab.c"
+#line 1503 "скочко.tab.c"
     break;
 
-  case 12:
-#line 204 "скочко.y"
+  case 14:
+#line 209 "скочко.y"
     {
       unesena_kombinacija[trenutni_znak++] = (yyvsp[0].i);
       if ((trenutni_znak + 1)%5 == 0)
@@ -1502,11 +1512,11 @@ yyreduce:
         odigraj_kombinaciju();
       }
     }
-#line 1506 "скочко.tab.c"
+#line 1516 "скочко.tab.c"
     break;
 
 
-#line 1510 "скочко.tab.c"
+#line 1520 "скочко.tab.c"
 
       default: break;
     }
@@ -1738,7 +1748,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 214 "скочко.y"
+#line 219 "скочко.y"
 
 
 int yyerror(char *s) {

@@ -893,7 +893,7 @@ YY_RULE_SETUP
 case 11:
 YY_RULE_SETUP
 #line 27 "скочко.l"
-{printf("Непознат унос %s. Пробајте поново.\n", yytext);}
+{printf("Непознат унос %s. Пробајте поново на ћирилици.\n", yytext);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP

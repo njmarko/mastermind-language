@@ -178,6 +178,11 @@ igra
       nova_igra();
     } 
     lista_kombinacija
+    | igra _NOVA_IGRA
+    {
+      nova_igra();
+    }
+    lista_kombinacija
     ;
 
 lista_kombinacija
