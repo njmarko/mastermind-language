@@ -186,12 +186,8 @@ igra
     ;
 
 lista_kombinacija
-    : kombinacija
-    | _NOVA_IGRA
-    {
-      nova_igra();
-    } 
-    lista_kombinacija
+    :
+    | kombinacija
     ;
 
 kombinacija
