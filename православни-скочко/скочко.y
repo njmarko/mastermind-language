@@ -146,10 +146,8 @@
 }
 
 
-%token _SKOCKO
 %token _ENTER
-%token _NOVA
-%token _IGRA
+%token _NOVA_IGRA
 %token _KRAJ
 %token <i> _ZNAK
 
@@ -170,16 +168,12 @@ znakovi_pre_pocetka
     }
     | znakovi_pre_pocetka _ZNAK
     {
-      printf("Започните нову игру командом \"НОВА ИГРА\".");
-    }
-    | znakovi_pre_pocetka _IGRA
-    {
-      printf("Започните нову игру командом \"НОВА ИГРА\".");
+      printf("\nЗапочните нову игру командом \"ЗАПОЧНИ\" или \"НОВА ИГРА\".\n");
     }
     ;
 
 igra
-    : _NOVA _IGRA 
+    : _NOVA_IGRA 
     {
       nova_igra();
     } 
@@ -188,7 +182,7 @@ igra
 
 lista_kombinacija
     : kombinacija
-    | _NOVA _IGRA
+    | _NOVA_IGRA
     {
       nova_igra();
     } 

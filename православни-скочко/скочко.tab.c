@@ -255,12 +255,10 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    _SKOCKO = 258,
-    _ENTER = 259,
-    _NOVA = 260,
-    _IGRA = 261,
-    _KRAJ = 262,
-    _ZNAK = 263
+    _ENTER = 258,
+    _NOVA_IGRA = 259,
+    _KRAJ = 260,
+    _ZNAK = 261
   };
 #endif
 
@@ -273,7 +271,7 @@ union YYSTYPE
     int i;
     char *s;
 
-#line 277 "скочко.tab.c"
+#line 275 "скочко.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -592,19 +590,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  3
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   11
+#define YYLAST   8
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  9
+#define YYNTOKENS  7
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  8
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  13
+#define YYNRULES  12
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  20
+#define YYNSTATES  17
 
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   263
+#define YYMAXUTOK   261
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -642,15 +640,15 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8
+       5,     6
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   159,   159,   166,   167,   171,   175,   183,   182,   190,
-     192,   191,   199,   209
+       0,   157,   157,   164,   165,   169,   177,   176,   184,   186,
+     185,   193,   203
 };
 #endif
 
@@ -659,9 +657,9 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "_SKOCKO", "_ENTER", "_NOVA", "_IGRA",
-  "_KRAJ", "_ZNAK", "$accept", "program", "znakovi_pre_pocetka", "igra",
-  "$@1", "lista_kombinacija", "$@2", "kombinacija", YY_NULLPTR
+  "$end", "error", "$undefined", "_ENTER", "_NOVA_IGRA", "_KRAJ", "_ZNAK",
+  "$accept", "program", "znakovi_pre_pocetka", "igra", "$@1",
+  "lista_kombinacija", "$@2", "kombinacija", YY_NULLPTR
 };
 #endif
 
@@ -670,7 +668,7 @@ static const char *const yytname[] =
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_int16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260,   261,   262,   263
+       0,   256,   257,   258,   259,   260,   261
 };
 # endif
 
@@ -688,8 +686,8 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -8,     5,    -5,    -8,     0,    -8,    -8,    -8,     1,    -8,
-      -8,    -1,     3,    -8,    -8,     2,    -8,    -8,    -1,    -8
+      -8,     4,    -4,    -8,    -8,    -8,    -8,     1,    -1,    -8,
+      -8,    -8,    -8,     2,    -1,    -8,    -8
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -697,8 +695,8 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       3,     0,     0,     1,     0,     6,     4,     5,     0,     7,
-       2,     0,     0,    12,     8,     9,    10,    13,     0,    11
+       3,     0,     0,     1,     6,     4,     5,     0,     0,     2,
+       9,    11,     7,     8,     0,    12,    10
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -710,7 +708,7 @@ static const yytype_int8 yypgoto[] =
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,     2,     8,    11,    14,    18,    15
+      -1,     1,     2,     7,     8,    12,    14,    13
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -718,36 +716,34 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       4,     5,     6,     7,    12,     3,     9,    13,    10,    16,
-      17,    19
+       4,     5,     6,    10,     3,    11,     9,    16,    15
 };
 
 static const yytype_int8 yycheck[] =
 {
-       5,     6,     7,     8,     5,     0,     6,     8,     7,     6,
-       8,    18
+       4,     5,     6,     4,     0,     6,     5,    14,     6
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    10,    11,     0,     5,     6,     7,     8,    12,     6,
-       7,    13,     5,     8,    14,    16,     6,     8,    15,    14
+       0,     8,     9,     0,     4,     5,     6,    10,    11,     5,
+       4,     6,    12,    14,    13,     6,    12
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,     9,    10,    11,    11,    11,    11,    13,    12,    14,
-      15,    14,    16,    16
+       0,     7,     8,     9,     9,     9,    11,    10,    12,    13,
+      12,    14,    14
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     3,     0,     2,     2,     2,     0,     4,     1,
-       0,     4,     1,     2
+       0,     2,     3,     0,     2,     2,     0,     3,     1,     0,
+       3,     1,     2
 };
 
 
@@ -1443,55 +1439,47 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 160 "скочко.y"
+#line 158 "скочко.y"
     {
       YYACCEPT;
     }
-#line 1451 "скочко.tab.c"
+#line 1447 "скочко.tab.c"
     break;
 
   case 4:
-#line 168 "скочко.y"
+#line 166 "скочко.y"
     {
       YYACCEPT;
     }
-#line 1459 "скочко.tab.c"
+#line 1455 "скочко.tab.c"
     break;
 
   case 5:
-#line 172 "скочко.y"
+#line 170 "скочко.y"
     {
       printf("Започните нову игру командом \"НОВА ИГРА\".");
     }
-#line 1467 "скочко.tab.c"
+#line 1463 "скочко.tab.c"
     break;
 
   case 6:
-#line 176 "скочко.y"
-    {
-      printf("Започните нову игру командом \"НОВА ИГРА\".");
-    }
-#line 1475 "скочко.tab.c"
-    break;
-
-  case 7:
-#line 183 "скочко.y"
+#line 177 "скочко.y"
     {
       nova_igra();
     }
-#line 1483 "скочко.tab.c"
+#line 1471 "скочко.tab.c"
     break;
 
-  case 10:
-#line 192 "скочко.y"
+  case 9:
+#line 186 "скочко.y"
     {
       nova_igra();
     }
-#line 1491 "скочко.tab.c"
+#line 1479 "скочко.tab.c"
     break;
 
-  case 12:
-#line 200 "скочко.y"
+  case 11:
+#line 194 "скочко.y"
     {
       unesena_kombinacija[trenutni_znak++] = (yyvsp[0].i);
       if ((trenutni_znak + 1)%5 == 0)
@@ -1501,11 +1489,11 @@ yyreduce:
       }
       
     }
-#line 1505 "скочко.tab.c"
+#line 1493 "скочко.tab.c"
     break;
 
-  case 13:
-#line 210 "скочко.y"
+  case 12:
+#line 204 "скочко.y"
     {
       unesena_kombinacija[trenutni_znak++] = (yyvsp[0].i);
       if ((trenutni_znak + 1)%5 == 0)
@@ -1514,11 +1502,11 @@ yyreduce:
         odigraj_kombinaciju();
       }
     }
-#line 1518 "скочко.tab.c"
+#line 1506 "скочко.tab.c"
     break;
 
 
-#line 1522 "скочко.tab.c"
+#line 1510 "скочко.tab.c"
 
       default: break;
     }
@@ -1750,7 +1738,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 220 "скочко.y"
+#line 214 "скочко.y"
 
 
 int yyerror(char *s) {
