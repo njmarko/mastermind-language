@@ -93,15 +93,17 @@
     #define tabla_args(a) a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14], a[15], a[16], a[17], a[18], a[19], a[20], a[21], a[22], a[23], a[24], a[25], a[26], a[27], a[28], a[29], a[30], a[31], a[32], a[33], a[34], a[35], a[36], a[37], a[38], a[39], a[40], a[41], a[42], a[43], a[44], a[45], a[46], a[47]
     #define red_args(a) a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]
     #define komb_trazena_args(a) a[0], a[1], a[2], a[3]
+    #define NEISPRAVAN_ZNAK -1
 
-    char * tabla = "\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n| %-1s | %-1s | %-1s | %-1s |   |%1s|%1s|%1s|%1s|\n\0";
-    char * red = "\n|%-1s |%-1s |%-1s |%-1s |   |%1s|%1s|%1s|%1s|\n\0";
-    char * ispravna_kombinacija_ispis = "\n\033[1;32mНажалост нисте успели да пронађете тражену комбинацију.\n\033[0m| %-1s | %-1s | %-1s | %-1s |\n\033[1;32m је тражена комбинација.\033[0m\n\0";
+    char * tabla = "\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%1s|%1s|%1s|%1s|\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%1s|%1s|%1s|%1s|\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%1s|%1s|%1s|%1s|\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%1s|%1s|%1s|%1s|\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%1s|%1s|%1s|%1s|\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%1s|%1s|%1s|%1s|\n\0";
+    char * red = "\n|%-1s  |%-1s  |%-1s  |%-1s  |   |%1s|%1s|%1s|%1s|\n\0";
+    char * ispravna_kombinacija_ispis = "\n\033[1;32mНажалост нисте успели да пронађете тражену комбинацију.\n\033[0m| %-1s  | %-1s  | %-1s  | %-1s  |\033[1;32m је тражена комбинација.\033[0m\n\0";
     char * poruka_unos = "\n\033[1;32mСКОЧКО[1] ТРЕФ[2] ПИК[3] ХЕРЦ[4] КАРО[5] ЗВЕЗДА[6] (КРАЈ за излазак)\033[0m\n\0";
     char * poruka_kombinacija_pogodjena = "\n\033[1;32mЧЕСТИТАМО! Пронашли сте тражену комбинацију!\033[0m\n\0";
     char * poruka_kraj_partije = "\n\033[1;32mИгра је завршена. Укуцајте команду \"НОВА ИГРА\" или \"КРАЈ\" за излазак.\033[0m\n\0";
     char * poruka_pocetak_partije = "\n\033[1;32mЗапочните нову игру командом \"ЗАПОЧНИ\" или \"НОВА ИГРА\".\033[0m\n\0";
     char * poruka_kraj_programa = "\n\033[1;32mОдустали сте од игре. Довиђења!\033[0m\n\0";
+    char * poruka_broj_van_opsega_znaka = "\n\033[1;32mПодржани су бројеви знакова од 1 до 6!\033[0m\n\0";
 
     #define znak_pik  "\033[1;34m\u2660\033[0m\0"
     #define znak_karo  "\033[1;31m\u2666\033[0m\0"
@@ -228,8 +230,11 @@
     }
 
     void unesi_znak(enum Znak znak){
+      if(znak == NEISPRAVAN_ZNAK){
+        return;
+      }
       // provera da li je trenutna igra zavrsena
-      if(broj_unetih_znakova >= BROJ_ZNAKOVA_TABLA || tacna_pozicija == VELICINA_KOMBINACIJE){
+      else if(broj_unetih_znakova >= BROJ_ZNAKOVA_TABLA || tacna_pozicija == VELICINA_KOMBINACIJE){
         printf("%s", poruka_kraj_partije);
       }
       else
@@ -244,9 +249,19 @@
       }
     }
 
+    bool provera_broja_za_znak(int broj){
+      if (broj < 1 || broj > BROJ_ZNAKOVA)
+      {
+        printf("%s", poruka_broj_van_opsega_znaka);
+        return FALSE;
+      }
+      return TRUE;
+
+    }
 
 
-#line 250 "скочко.tab.c"
+
+#line 265 "скочко.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -296,7 +311,8 @@ extern int yydebug;
   {
     _NOVA_IGRA = 258,
     _KRAJ = 259,
-    _ZNAK = 260
+    _ZNAK = 260,
+    _BROJ = 261
   };
 #endif
 
@@ -304,12 +320,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 182 "скочко.y"
+#line 197 "скочко.y"
 
     int i;
     char *s;
 
-#line 313 "скочко.tab.c"
+#line 329 "скочко.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -628,19 +644,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  3
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   8
+#define YYLAST   12
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  6
+#define YYNTOKENS  7
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  8
+#define YYNNTS  9
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  13
+#define YYNRULES  15
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  17
+#define YYNSTATES  19
 
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   260
+#define YYMAXUTOK   261
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -678,15 +694,15 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5
+       5,     6
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,   195,   195,   202,   203,   207,   215,   214,   220,   219,
-     227,   228,   232,   236
+       0,   213,   213,   220,   221,   225,   233,   232,   238,   237,
+     245,   246,   250,   254,   261,   265
 };
 #endif
 
@@ -695,9 +711,9 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "_NOVA_IGRA", "_KRAJ", "_ZNAK",
+  "$end", "error", "$undefined", "_NOVA_IGRA", "_KRAJ", "_ZNAK", "_BROJ",
   "$accept", "program", "znakovi_pre_pocetka", "igra", "$@1", "$@2",
-  "lista_kombinacija", "kombinacija", YY_NULLPTR
+  "lista_kombinacija", "kombinacija", "unos_za_znak", YY_NULLPTR
 };
 #endif
 
@@ -706,11 +722,11 @@ static const char *const yytname[] =
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_int16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260
+       0,   256,   257,   258,   259,   260,   261
 };
 # endif
 
-#define YYPACT_NINF (-7)
+#define YYPACT_NINF (-9)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -724,8 +740,8 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -7,     5,    -3,    -7,    -7,    -7,    -7,     0,     1,    -7,
-      -7,    -7,    -7,     2,     1,    -7,    -7
+      -9,     1,    -1,    -9,    -9,    -9,    -9,    -9,     3,    -9,
+       4,    -9,    -9,    -9,     4,    -9,     4,    -9,    -9
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -733,20 +749,20 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       3,     0,     0,     1,     6,     4,     5,     0,    10,     8,
-       2,    12,     7,    11,    10,    13,     9
+       3,     0,     0,     1,     6,     4,    14,    15,     0,     5,
+      10,     8,     2,     7,    11,    12,    10,    13,     9
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -7,    -7,    -7,    -7,    -7,    -7,    -6,    -7
+      -9,    -9,    -9,    -9,    -9,    -9,    -8,    -9,    -2
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,     2,     7,     8,    14,    12,    13
+      -1,     1,     2,     8,    10,    16,    13,    14,    15
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -754,34 +770,36 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       4,     5,     6,     9,    10,     3,    11,    15,    16
+       9,     3,     4,     5,     6,     7,    11,    12,    18,     6,
+       7,     0,    17
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,     4,     5,     3,     4,     0,     5,     5,    14
+       2,     0,     3,     4,     5,     6,     3,     4,    16,     5,
+       6,    -1,    14
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     7,     8,     0,     3,     4,     5,     9,    10,     3,
-       4,     5,    12,    13,    11,     5,    12
+       0,     8,     9,     0,     3,     4,     5,     6,    10,    15,
+      11,     3,     4,    13,    14,    15,    12,    15,    13
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,     6,     7,     8,     8,     8,    10,     9,    11,     9,
-      12,    12,    13,    13
+       0,     7,     8,     9,     9,     9,    11,    10,    12,    10,
+      13,    13,    14,    14,    15,    15
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     3,     0,     2,     2,     0,     3,     0,     4,
-       0,     1,     1,     2
+       0,     1,     1,     2,     1,     1
 };
 
 
@@ -1477,63 +1495,83 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 196 "скочко.y"
+#line 214 "скочко.y"
     {
       YYACCEPT;
     }
-#line 1485 "скочко.tab.c"
+#line 1503 "скочко.tab.c"
     break;
 
   case 4:
-#line 204 "скочко.y"
+#line 222 "скочко.y"
     {
       YYACCEPT;
     }
-#line 1493 "скочко.tab.c"
+#line 1511 "скочко.tab.c"
     break;
 
   case 5:
-#line 208 "скочко.y"
+#line 226 "скочко.y"
     {
       printf("%s", poruka_pocetak_partije);
     }
-#line 1501 "скочко.tab.c"
+#line 1519 "скочко.tab.c"
     break;
 
   case 6:
-#line 215 "скочко.y"
+#line 233 "скочко.y"
     {
       nova_igra();
     }
-#line 1509 "скочко.tab.c"
+#line 1527 "скочко.tab.c"
     break;
 
   case 8:
-#line 220 "скочко.y"
+#line 238 "скочко.y"
     {
       nova_igra();
     }
-#line 1517 "скочко.tab.c"
+#line 1535 "скочко.tab.c"
     break;
 
   case 12:
-#line 233 "скочко.y"
+#line 251 "скочко.y"
     {
-      unesi_znak((yyvsp[0].i));
+        unesi_znak((yyvsp[0].i));
     }
-#line 1525 "скочко.tab.c"
+#line 1543 "скочко.tab.c"
     break;
 
   case 13:
-#line 237 "скочко.y"
+#line 255 "скочко.y"
     {
-      unesi_znak((yyvsp[0].i));
+        unesi_znak((yyvsp[0].i));
     }
-#line 1533 "скочко.tab.c"
+#line 1551 "скочко.tab.c"
+    break;
+
+  case 14:
+#line 262 "скочко.y"
+    {
+      (yyval.i) = (yyvsp[0].i);
+    }
+#line 1559 "скочко.tab.c"
+    break;
+
+  case 15:
+#line 266 "скочко.y"
+    {
+      if(provera_broja_za_znak(atoi((yyvsp[0].s)))){
+        (yyval.i) = atoi((yyvsp[0].s)) - 1;
+      } else {
+        (yyval.i) = NEISPRAVAN_ZNAK;
+      }
+    }
+#line 1571 "скочко.tab.c"
     break;
 
 
-#line 1537 "скочко.tab.c"
+#line 1575 "скочко.tab.c"
 
       default: break;
     }
@@ -1765,7 +1803,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 242 "скочко.y"
+#line 277 "скочко.y"
 
 
 int yyerror(char *s) {

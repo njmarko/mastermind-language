@@ -20,6 +20,7 @@
 (з|З)(в|В)(е|Е)(з|З)(д|Д)(а|А)                      {yylval.i = ZVEZDA; return _ZNAK;}
 (х|Х)(е|Е)(р|Р)(ц|Ц)                                {yylval.i = HERC; return _ZNAK;}
 
+[0-9]+                                              {yylval.s = strdup(yytext); return _BROJ;}
 
 (н|Н)(о|О)(в|В)(а|А)[ \t\n]+(и|И)(г|Г)(р|Р)(а|А)    {return _NOVA_IGRA;}
 (з|З)(а|А)(п|П)(о|О)(ч|Ћ)(н|Н)(и|И)                 {return _NOVA_IGRA;}

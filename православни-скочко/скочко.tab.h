@@ -51,7 +51,8 @@ extern int yydebug;
   {
     _NOVA_IGRA = 258,
     _KRAJ = 259,
-    _ZNAK = 260
+    _ZNAK = 260,
+    _BROJ = 261
   };
 #endif
 
@@ -59,12 +60,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 182 "скочко.y"
+#line 197 "скочко.y"
 
     int i;
     char *s;
 
-#line 68 "скочко.tab.h"
+#line 69 "скочко.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
