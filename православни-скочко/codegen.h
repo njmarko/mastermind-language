@@ -17,6 +17,6 @@ void generisi_unetu_kombinaciju(enum Znak * kombinacija, int redni_broj);
 
 void generisi_trazenu_kombinaciju(enum Znak * kombinacija);
 
-void generisi_kraj();
+void generisi_kraj(int redni_broj);
 
 #endif

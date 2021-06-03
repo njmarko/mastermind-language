@@ -40,6 +40,8 @@
 
     int trenutni_znak = 0;
 
+    bool igra_zavrsena = TRUE;
+
     void isprazni_tablu(){
       int i;
       for(i = 0; i< BROJ_ZNAKOVA_TABLA; ++i){
@@ -115,8 +117,17 @@
       }
     }
 
+    void zavrsi_upis_u_fajl(){
+        if (!igra_zavrsena)
+        {
+          generisi_kraj(broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
+        }
+        igra_zavrsena = FALSE;
+    }
 
     void nova_igra(){
+        zavrsi_upis_u_fajl();
+        
         generisi_data_sekciju();
         generisi_pocetak_text_sekcije();
         generisi_pomocne_funkcije();
@@ -127,6 +138,7 @@
         broj_unetih_znakova = 0;
         tacna_pozicija = 0;
         netacna_pozicija = 0;
+        igra_zavrsena = FALSE;
         isprazni_tablu();
         napravi_random_trazenu_kombinaciju();
 
@@ -138,15 +150,22 @@
     }
 
     void ispis_nakon_unete_kombinacije(){
+        generisi_unetu_kombinaciju(unesena_kombinacija, broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
         if(tacna_pozicija == VELICINA_KOMBINACIJE){
           printf("%s", poruka_kombinacija_pogodjena); printf("%s", poruka_kraj_partije);
+          igra_zavrsena = TRUE;
         } else if(broj_unetih_znakova >= BROJ_ZNAKOVA_TABLA){
           printf(ispravna_kombinacija_ispis, komb_trazena_args(znakovi_trazena_kombinacija));
           printf("%s", poruka_kraj_partije);
+          igra_zavrsena = TRUE;
         } else {
           printf("%s", poruka_unos);
-          generisi_unetu_kombinaciju(unesena_kombinacija, broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
         }
+        if (igra_zavrsena)
+        {
+          generisi_kraj(broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
+        }
+        
     }
 
     void unesi_znak(enum Znak znak){
@@ -203,16 +222,16 @@
 program
     : znakovi_pre_pocetka igra _KRAJ
     {
-      generisi_kraj(broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
+      zavrsi_upis_u_fajl();
       YYACCEPT;
     }
     ; 
 
 znakovi_pre_pocetka
-    : /* empty */
+    : /* prazna */
     | znakovi_pre_pocetka _KRAJ
     {
-      generisi_kraj(broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
+      zavrsi_upis_u_fajl();
       YYACCEPT;
     }
     | znakovi_pre_pocetka unos_za_znak
@@ -235,7 +254,7 @@ igra
     ;
 
 lista_kombinacija
-    :
+    : /* prazna */
     | kombinacija
     ;
 
@@ -250,7 +269,7 @@ kombinacija
     }
     ;
 
-  unos_za_znak
+unos_za_znak
     : _ZNAK
     {
       $$ = $1;
@@ -264,8 +283,6 @@ kombinacija
       }
     }
     ;
-
-
 
 %%
 
