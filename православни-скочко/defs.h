@@ -57,16 +57,16 @@ static char * poruka_pocetak_partije = "\n\033[1;32mЗапочните нову 
 static char * poruka_kraj_programa = "\n\033[1;32mОдустали сте од игре. Довиђења!\033[0m\n\0";
 static char * poruka_broj_van_opsega_znaka = "\n\033[1;32mПодржани су бројеви знакова од 1 до 6!\033[0m\n\0";
 
-    #define znak_pik  "\033[1;34m\u2660\033[0m\0"
-    #define znak_karo  "\033[1;31m\u2666\033[0m\0"
-    #define znak_skocko  "\033[1;33m\u263A\033[0m\0"
-    #define znak_zvezda  "\033[1;33m\u2605\033[0m\0"
-    #define znak_tref  "\033[1;34m\u2663\033[0m\0"
-    #define znak_herc  "\033[1;31m\u2665\033[0m\0"
-    #define znak_crveni  "\033[1;31m\u25CF\033[0m\0"
-    #define znak_zuti  "\033[1;33m\u25CF\033[0m\0"
-    #define znak_prazan  "\0\033[0m\0"
-    #define ocisti_ekran "\033[2J\0"
+#define znak_pik  "\033[1;34m\u2660\033[0m\0"
+#define znak_karo  "\033[1;31m\u2666\033[0m\0"
+#define znak_skocko  "\033[1;33m\u263A\033[0m\0"
+#define znak_zvezda  "\033[1;33m\u2605\033[0m\0"
+#define znak_tref  "\033[1;34m\u2663\033[0m\0"
+#define znak_herc  "\033[1;31m\u2665\033[0m\0"
+#define znak_crveni  "\033[1;31m\u25CF\033[0m\0"
+#define znak_zuti  "\033[1;33m\u25CF\033[0m\0"
+#define znak_prazan  "\0\033[0m\0"
+#define ocisti_ekran "\033[2J\0"
                           
 
 #endif
