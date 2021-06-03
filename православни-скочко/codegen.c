@@ -295,6 +295,44 @@ void generisi_pomocne_funkcije()
     code("\n%s", "povratak_input:	ret");
 }
 
+void generisi_unetu_kombinaciju(enum Znak * kombinacija, int redni_broj){
+    }
+
+void generisi_trazenu_kombinaciju(enum Znak * kombinacija){
+    code("\nmain:");
+    code("\n\tpushl $clr");
+    code("\n\tcall system");
+    code("\n\taddl $4, %%esp");
+    code("\n	movl $znak_prazan, %%eax #nula za stack");
+    code("\n	movl brojac_stack, %%ebx #brojac za stack br.48");
+    code("\npripremi_stack: #gura 48 praznih stringova na stack zbog nacina koriscenja printf funkcije");
+    code("\n	pushl %%eax");
+    code("\n	decl %%ebx");
+    code("\n	jnz pripremi_stack");
+    code("\n	pushl $multi_line_display");
+    code("\n	call printf");
+    code("\n	movl $36, brojac_stack #postavlja se vrednost brojaca stack pomnozena sa 4 (velicina long)");
+    code("\n");
+    code("\n	call napravi_kombinacije");
+    code("\n    movl $%d, %%ebx", 0b10000000100000001000000010000000);
+}
+
+void generisi_kraj(){
+    code("\nporuka_pogodjena:");
+    code("\n	movl $4, %%eax");
+    code("\n	movl $1, %%ebx");
+    code("\n	leal poruka_pogodjena_ispis, %%ecx");
+    code("\n	movl $poruka_pogodjena_len, %%edx ");
+    code("\n	int $0x80");
+    code("\n	jmp kraj");
+    code("\n	");
+    code("\nkraj:");
+    code("\n	movl $1, %%eax");
+    code("\n	movl $0, %%ebx");
+    code("\n	int $0x80");
+}
+
+
 void generisi_interaktivnu_igru()
 {
 

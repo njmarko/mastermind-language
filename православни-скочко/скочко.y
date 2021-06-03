@@ -127,7 +127,7 @@
         generisi_data_sekciju();
         generisi_pocetak_text_sekcije();
         generisi_pomocne_funkcije();
-        generisi_interaktivnu_igru();
+        // generisi_interaktivnu_igru();
 
         ocisti_terminal();
         trenutni_znak = 0;
@@ -136,6 +136,10 @@
         netacna_pozicija = 0;
         isprazni_tablu();
         napravi_random_trazenu_kombinaciju();
+
+        generisi_trazenu_kombinaciju(trazena_kombinacija);
+        generisi_kraj();
+
         napravi_histogram(trazena_kombinacija, histogram_trazene_kombinacije);
         printf(tabla, tabla_args(znakovi_za_tablu));
         printf("%s", poruka_unos);
