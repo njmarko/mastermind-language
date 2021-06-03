@@ -6,4 +6,6 @@
 
 void generisi_data_sekciju();
 
+void generisi_pomocne_funkcije();
+
 #endif

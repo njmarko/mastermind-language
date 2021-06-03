@@ -27,25 +27,6 @@
     #define komb_trazena_args(a) a[0], a[1], a[2], a[3]
     #define NEISPRAVAN_ZNAK -1
 
-    char * tabla = "\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%-1s |%-1s |%-1s |%-1s |\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%-1s |%-1s |%-1s |%-1s |\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%-1s |%-1s |%-1s |%-1s |\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%-1s |%-1s |%-1s |%-1s |\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%-1s |%-1s |%-1s |%-1s |\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%-1s |%-1s |%-1s |%-1s |\n\0";
-    char * red = "\n| %-1s  | %-1s  | %-1s  | %-1s  |   |%-1s |%-1s |%-1s |%-1s |\n\0";
-    char * ispravna_kombinacija_ispis = "\n\033[1;32mНажалост нисте успели да пронађете тражену комбинацију.\n\033[0m| %-1s  | %-1s  | %-1s  | %-1s  |\033[1;32m је тражена комбинација.\033[0m\n\0";
-    char * poruka_unos = "\n\033[1;32mСКОЧКО[1] ТРЕФ[2] ПИК[3] ХЕРЦ[4] КАРО[5] ЗВЕЗДА[6] (КРАЈ за излазак)\033[0m\n\0";
-    char * poruka_kombinacija_pogodjena = "\n\033[1;32mЧЕСТИТАМО! Пронашли сте тражену комбинацију!\033[0m\n\0";
-    char * poruka_kraj_partije = "\n\033[1;32mИгра је завршена. Укуцајте команду \"НОВА ИГРА\" или \"КРАЈ\" за излазак.\033[0m\n\0";
-    char * poruka_pocetak_partije = "\n\033[1;32mЗапочните нову игру командом \"ЗАПОЧНИ\" или \"НОВА ИГРА\".\033[0m\n\0";
-    char * poruka_kraj_programa = "\n\033[1;32mОдустали сте од игре. Довиђења!\033[0m\n\0";
-    char * poruka_broj_van_opsega_znaka = "\n\033[1;32mПодржани су бројеви знакова од 1 до 6!\033[0m\n\0";
-
-    #define znak_pik  "\033[1;34m\u2660\033[0m\0"
-    #define znak_karo  "\033[1;31m\u2666\033[0m\0"
-    #define znak_skocko  "\033[1;33m\u263A\033[0m\0"
-    #define znak_zvezda  "\033[1;33m\u2605\033[0m\0"
-    #define znak_tref  "\033[1;34m\u2663\033[0m\0"
-    #define znak_herc  "\033[1;31m\u2665\033[0m\0"
-    #define znak_crveni  "\033[1;31m\u25CF\033[0m\0"
-    #define znak_zuti  "\033[1;33m\u25CF\033[0m\0"
-    #define znak_prazan  "\0\033[0m\0"
 
     char * znakovi_za_ispis[9] = {znak_skocko, znak_tref, znak_pik, znak_herc, znak_karo, znak_zvezda};
 
@@ -138,6 +119,9 @@
 
 
     void nova_igra(){
+        generisi_data_sekciju();
+        generisi_pomocne_funkcije();
+
         trenutni_znak = 0;
         broj_unetih_znakova = 0;
         tacna_pozicija = 0;
@@ -147,7 +131,6 @@
         napravi_histogram(trazena_kombinacija, histogram_trazene_kombinacije);
         printf(tabla, tabla_args(znakovi_za_tablu));
         printf("%s", poruka_unos);
-        generisi_data_sekciju();
     }
 
     void ispis_nakon_unete_kombinacije(){
@@ -293,6 +276,7 @@ int main(){
     // extern int yydebug;
     // yydebug = 1;
 
+    printf("%s", ocisti_ekran);
     srand(time(0));
 
     int synerr;
