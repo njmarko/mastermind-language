@@ -4,7 +4,7 @@ SHELL = /bin/bash
 COMP = $(wildcard *.l)
 SRC = $(basename $(COMP))
 # da li je kompajler sa generisanjem koda?
-ifeq ($(SRC),micko)
+ifeq ($(SRC),скочко)
     ASM = true
     CGENC = codegen.c
     CGENH = codegen.h

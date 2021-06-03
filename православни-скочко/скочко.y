@@ -4,6 +4,7 @@
     #include <time.h> 
     #include "defs.h"
     #include "symtab.h"
+    #include "codegen.h"
 
     int yyparse(void);
     int yylex(void);
@@ -146,6 +147,7 @@
         napravi_histogram(trazena_kombinacija, histogram_trazene_kombinacije);
         printf(tabla, tabla_args(znakovi_za_tablu));
         printf("%s", poruka_unos);
+        generisi_data_sekciju();
     }
 
     void ispis_nakon_unete_kombinacije(){
@@ -295,7 +297,7 @@ int main(){
 
     int synerr;
     init_symtab();
-    output = fopen("output.asm", "w+");
+    output = fopen("output.S", "w+");
 
     printf("%s", poruka_pocetak_partije);
     synerr = yyparse();
