@@ -208,8 +208,7 @@
 
     void ispis_nakon_unete_kombinacije(){
         if(tacna_pozicija == VELICINA_KOMBINACIJE){
-          printf("%s", poruka_kombinacija_pogodjena);
-          printf("%s", poruka_kraj_partije);
+          printf("%s", poruka_kombinacija_pogodjena); printf("%s", poruka_kraj_partije);
         } else if(broj_unetih_znakova >= BROJ_ZNAKOVA_TABLA){
           printf(ispravna_kombinacija_ispis, komb_trazena_args(znakovi_trazena_kombinacija));
           printf("%s", poruka_kraj_partije);
@@ -253,7 +252,7 @@
 
 
 
-#line 257 "скочко.tab.c"
+#line 256 "скочко.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -312,12 +311,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 189 "скочко.y"
+#line 188 "скочко.y"
 
     int i;
     char *s;
 
-#line 321 "скочко.tab.c"
+#line 320 "скочко.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -693,8 +692,8 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   205,   205,   213,   214,   219,   227,   226,   232,   231,
-     239,   240,   244,   248,   255,   259
+       0,   204,   204,   212,   213,   218,   226,   225,   231,   230,
+     238,   239,   243,   247,   254,   258
 };
 #endif
 
@@ -1487,73 +1486,73 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 206 "скочко.y"
+#line 205 "скочко.y"
     {
-      generisi_kraj();
+      generisi_kraj(broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
       YYACCEPT;
     }
-#line 1496 "скочко.tab.c"
+#line 1495 "скочко.tab.c"
     break;
 
   case 4:
-#line 215 "скочко.y"
+#line 214 "скочко.y"
     {
-      generisi_kraj();
+      generisi_kraj(broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
       YYACCEPT;
     }
-#line 1505 "скочко.tab.c"
+#line 1504 "скочко.tab.c"
     break;
 
   case 5:
-#line 220 "скочко.y"
+#line 219 "скочко.y"
     {
       printf("%s", poruka_pocetak_partije);
     }
-#line 1513 "скочко.tab.c"
+#line 1512 "скочко.tab.c"
     break;
 
   case 6:
-#line 227 "скочко.y"
+#line 226 "скочко.y"
     {
       nova_igra();
     }
-#line 1521 "скочко.tab.c"
+#line 1520 "скочко.tab.c"
     break;
 
   case 8:
-#line 232 "скочко.y"
+#line 231 "скочко.y"
     {
       nova_igra();
     }
-#line 1529 "скочко.tab.c"
+#line 1528 "скочко.tab.c"
     break;
 
   case 12:
-#line 245 "скочко.y"
+#line 244 "скочко.y"
     {
         unesi_znak((yyvsp[0].i));
     }
-#line 1537 "скочко.tab.c"
+#line 1536 "скочко.tab.c"
     break;
 
   case 13:
-#line 249 "скочко.y"
+#line 248 "скочко.y"
     {
         unesi_znak((yyvsp[0].i));
     }
-#line 1545 "скочко.tab.c"
+#line 1544 "скочко.tab.c"
     break;
 
   case 14:
-#line 256 "скочко.y"
+#line 255 "скочко.y"
     {
       (yyval.i) = (yyvsp[0].i);
     }
-#line 1553 "скочко.tab.c"
+#line 1552 "скочко.tab.c"
     break;
 
   case 15:
-#line 260 "скочко.y"
+#line 259 "скочко.y"
     {
       if(provera_broja_za_znak(atoi((yyvsp[0].s)))){
         (yyval.i) = atoi((yyvsp[0].s)) - 1;
@@ -1561,11 +1560,11 @@ yyreduce:
         (yyval.i) = NEISPRAVAN_ZNAK;
       }
     }
-#line 1565 "скочко.tab.c"
+#line 1564 "скочко.tab.c"
     break;
 
 
-#line 1569 "скочко.tab.c"
+#line 1568 "скочко.tab.c"
 
       default: break;
     }
@@ -1797,7 +1796,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 271 "скочко.y"
+#line 270 "скочко.y"
 
 
 int yyerror(char *s) {

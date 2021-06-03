@@ -422,7 +422,48 @@ void generisi_trazenu_kombinaciju(enum Znak * kombinacija){
     code("\n\tmovl %%ebx, trazena_kombinacija");
     }
 
-void generisi_kraj(){
+void generisi_kraj(int redni_broj){
+    // max koji dospe ovde je 6 pa ga uvecam da bude 7
+    redni_broj++;
+
+    code("\nporuka_promasena:");
+    code("\n	movl $4, %%eax #brojac");
+    code("\npetlja_komb%d:", redni_broj);
+    code("\n	decl %%eax");
+    code("\n	js ispisi_pogresnu_kombinaciju");
+    code("\n	cmpb $0b01000000, trazena_kombinacija");
+    code("\n	ja upisi_skocko%d", redni_broj);
+    code("\n	je upisi_tref%d", redni_broj);
+    code("\n	cmpb $0b00010000, trazena_kombinacija");
+    code("\n	ja upisi_pik%d", redni_broj);
+    code("\n	je upisi_herc%d", redni_broj);
+    code("\n	cmpb $0b00000100, trazena_kombinacija");
+    code("\n	ja upisi_karo%d", redni_broj);
+    code("\nupisi_zvezda%d:", redni_broj);
+    code("\n	pushl $znak_zvezda");
+    code("\n	jmp brojac_petlja_komb%d", redni_broj);
+    code("\nupisi_skocko%d:", redni_broj);
+    code("\n	pushl $znak_skocko");
+    code("\n	jmp brojac_petlja_komb%d", redni_broj);
+    code("\nupisi_tref%d:", redni_broj);
+    code("\n	pushl $znak_tref");
+    code("\n	jmp brojac_petlja_komb%d", redni_broj);
+    code("\nupisi_pik%d:", redni_broj);
+    code("\n	pushl $znak_pik");
+    code("\n	jmp brojac_petlja_komb%d", redni_broj);
+    code("\nupisi_herc%d:", redni_broj);
+    code("\n	pushl $znak_herc");
+    code("\n	jmp brojac_petlja_komb%d", redni_broj);
+    code("\nupisi_karo%d:", redni_broj);
+    code("\n	pushl $znak_karo");
+    code("\nbrojac_petlja_komb%d:", redni_broj);
+    code("\n	shrl $8, trazena_kombinacija");
+    code("\n	jmp petlja_komb%d", redni_broj);
+    code("\nispisi_pogresnu_kombinaciju:");
+    code("\n	pushl $poruka_promasena_ispis");
+    code("\n	call printf");
+    code("\n	jmp kraj");
+
     code("\nporuka_pogodjena:");
     code("\n	movl $4, %%eax");
     code("\n	movl $1, %%ebx");

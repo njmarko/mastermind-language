@@ -139,8 +139,7 @@
 
     void ispis_nakon_unete_kombinacije(){
         if(tacna_pozicija == VELICINA_KOMBINACIJE){
-          printf("%s", poruka_kombinacija_pogodjena);
-          printf("%s", poruka_kraj_partije);
+          printf("%s", poruka_kombinacija_pogodjena); printf("%s", poruka_kraj_partije);
         } else if(broj_unetih_znakova >= BROJ_ZNAKOVA_TABLA){
           printf(ispravna_kombinacija_ispis, komb_trazena_args(znakovi_trazena_kombinacija));
           printf("%s", poruka_kraj_partije);
@@ -204,7 +203,7 @@
 program
     : znakovi_pre_pocetka igra _KRAJ
     {
-      generisi_kraj();
+      generisi_kraj(broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
       YYACCEPT;
     }
     ; 
@@ -213,7 +212,7 @@ znakovi_pre_pocetka
     : /* empty */
     | znakovi_pre_pocetka _KRAJ
     {
-      generisi_kraj();
+      generisi_kraj(broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
       YYACCEPT;
     }
     | znakovi_pre_pocetka unos_za_znak
