@@ -54,6 +54,11 @@
       }
     }
 
+    void ocisti_terminal(){
+    // printf("%s", ocisti_ekran);
+      system("clear");
+    }
+
     void napravi_histogram(enum Znak * kombinacija, enum Znak * histogram){
       int i;
       // postavim sve vrednosti na nula u histogramu
@@ -120,8 +125,11 @@
 
     void nova_igra(){
         generisi_data_sekciju();
+        generisi_pocetak_text_sekcije();
         generisi_pomocne_funkcije();
+        generisi_interaktivnu_igru();
 
+        ocisti_terminal();
         trenutni_znak = 0;
         broj_unetih_znakova = 0;
         tacna_pozicija = 0;
@@ -151,6 +159,7 @@
       }
       // provera da li je trenutna igra zavrsena
       else if(broj_unetih_znakova >= BROJ_ZNAKOVA_TABLA || tacna_pozicija == VELICINA_KOMBINACIJE){
+        ocisti_terminal();
         printf("%s", poruka_kraj_partije);
       }
       else
@@ -158,6 +167,7 @@
         unesena_kombinacija[trenutni_znak++] = znak;
         if ((trenutni_znak + 1) % 5 == 0)
         {
+          ocisti_terminal();
           trenutni_znak = 0;
           odigraj_kombinaciju();
           ispis_nakon_unete_kombinacije();
@@ -276,7 +286,7 @@ int main(){
     // extern int yydebug;
     // yydebug = 1;
 
-    printf("%s", ocisti_ekran);
+    ocisti_terminal();
     srand(time(0));
 
     int synerr;

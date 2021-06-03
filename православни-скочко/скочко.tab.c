@@ -123,6 +123,11 @@
       }
     }
 
+    void ocisti_terminal(){
+    // printf("%s", ocisti_ekran);
+      system("clear");
+    }
+
     void napravi_histogram(enum Znak * kombinacija, enum Znak * histogram){
       int i;
       // postavim sve vrednosti na nula u histogramu
@@ -189,8 +194,11 @@
 
     void nova_igra(){
         generisi_data_sekciju();
+        generisi_pocetak_text_sekcije();
         generisi_pomocne_funkcije();
+        generisi_interaktivnu_igru();
 
+        ocisti_terminal();
         trenutni_znak = 0;
         broj_unetih_znakova = 0;
         tacna_pozicija = 0;
@@ -220,6 +228,7 @@
       }
       // provera da li je trenutna igra zavrsena
       else if(broj_unetih_znakova >= BROJ_ZNAKOVA_TABLA || tacna_pozicija == VELICINA_KOMBINACIJE){
+        ocisti_terminal();
         printf("%s", poruka_kraj_partije);
       }
       else
@@ -227,6 +236,7 @@
         unesena_kombinacija[trenutni_znak++] = znak;
         if ((trenutni_znak + 1) % 5 == 0)
         {
+          ocisti_terminal();
           trenutni_znak = 0;
           odigraj_kombinaciju();
           ispis_nakon_unete_kombinacije();
@@ -246,7 +256,7 @@
 
 
 
-#line 250 "скочко.tab.c"
+#line 260 "скочко.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -305,12 +315,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 182 "скочко.y"
+#line 192 "скочко.y"
 
     int i;
     char *s;
 
-#line 314 "скочко.tab.c"
+#line 324 "скочко.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -684,10 +694,10 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,   198,   198,   205,   206,   210,   218,   217,   223,   222,
-     230,   231,   235,   239,   246,   250
+       0,   208,   208,   215,   216,   220,   228,   227,   233,   232,
+     240,   241,   245,   249,   256,   260
 };
 #endif
 
@@ -1480,71 +1490,71 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 199 "скочко.y"
+#line 209 "скочко.y"
     {
       YYACCEPT;
     }
-#line 1488 "скочко.tab.c"
+#line 1498 "скочко.tab.c"
     break;
 
   case 4:
-#line 207 "скочко.y"
+#line 217 "скочко.y"
     {
       YYACCEPT;
     }
-#line 1496 "скочко.tab.c"
+#line 1506 "скочко.tab.c"
     break;
 
   case 5:
-#line 211 "скочко.y"
+#line 221 "скочко.y"
     {
       printf("%s", poruka_pocetak_partije);
     }
-#line 1504 "скочко.tab.c"
+#line 1514 "скочко.tab.c"
     break;
 
   case 6:
-#line 218 "скочко.y"
+#line 228 "скочко.y"
     {
       nova_igra();
     }
-#line 1512 "скочко.tab.c"
+#line 1522 "скочко.tab.c"
     break;
 
   case 8:
-#line 223 "скочко.y"
+#line 233 "скочко.y"
     {
       nova_igra();
     }
-#line 1520 "скочко.tab.c"
+#line 1530 "скочко.tab.c"
     break;
 
   case 12:
-#line 236 "скочко.y"
+#line 246 "скочко.y"
     {
         unesi_znak((yyvsp[0].i));
     }
-#line 1528 "скочко.tab.c"
+#line 1538 "скочко.tab.c"
     break;
 
   case 13:
-#line 240 "скочко.y"
+#line 250 "скочко.y"
     {
         unesi_znak((yyvsp[0].i));
     }
-#line 1536 "скочко.tab.c"
+#line 1546 "скочко.tab.c"
     break;
 
   case 14:
-#line 247 "скочко.y"
+#line 257 "скочко.y"
     {
       (yyval.i) = (yyvsp[0].i);
     }
-#line 1544 "скочко.tab.c"
+#line 1554 "скочко.tab.c"
     break;
 
   case 15:
-#line 251 "скочко.y"
+#line 261 "скочко.y"
     {
       if(provera_broja_za_znak(atoi((yyvsp[0].s)))){
         (yyval.i) = atoi((yyvsp[0].s)) - 1;
@@ -1552,11 +1562,11 @@ yyreduce:
         (yyval.i) = NEISPRAVAN_ZNAK;
       }
     }
-#line 1556 "скочко.tab.c"
+#line 1566 "скочко.tab.c"
     break;
 
 
-#line 1560 "скочко.tab.c"
+#line 1570 "скочко.tab.c"
 
       default: break;
     }
@@ -1788,7 +1798,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 262 "скочко.y"
+#line 272 "скочко.y"
 
 
 int yyerror(char *s) {
@@ -1806,7 +1816,7 @@ int main(){
     // extern int yydebug;
     // yydebug = 1;
 
-    printf("%s", ocisti_ekran);
+    ocisti_terminal();
     srand(time(0));
 
     int synerr;
