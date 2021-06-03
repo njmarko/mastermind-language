@@ -3,6 +3,8 @@
 #include <string.h>
 #include "codegen.h"
 #include "symtab.h"
+#include "defs.h"
+#include "math.h"
 
 extern FILE *output;
 
@@ -295,7 +297,107 @@ void generisi_pomocne_funkcije()
     code("\n%s", "povratak_input:	ret");
 }
 
+int enkodiraj_kombinaciju(enum Znak * kombinacija){
+
+    int i;
+    int enkodirana_kombinacija = 0;
+    for(i = 0; i < VELICINA_KOMBINACIJE; ++i){            
+        enkodirana_kombinacija = enkodirana_kombinacija << 8 ^ (0x80 >> kombinacija[i]);
+    }
+    return enkodirana_kombinacija;
+}
+
 void generisi_unetu_kombinaciju(enum Znak * kombinacija, int redni_broj){
+    code("\n#-------celina za unos i racunanje");
+
+    // unosim kombinaciju direktno u pokusaj
+    code("\n\tmovl $%d, %%eax", enkodiraj_kombinaciju(kombinacija));
+    code("\n\tmovl %%eax, pokusaj");
+
+    code("\n	movl pokusaj, %%eax");
+    code("\n	movl trazena_kombinacija, %%ebx");
+    code("\n	call histogram");
+    code("\n	movl %%esi, crveni");
+    code("\n	movl %%edi, zuti");
+    code("\n	call izracunaj_preostale_1");
+    code("\n	cmpl $4, crveni");
+    code("\n	jne ispis%d", redni_broj);
+    code("\n	movl $1, pogodjena_kombinacija");
+    code("\n");
+    code("\n#-------celina za ispis");
+    code("\nispis%d:", redni_broj);
+
+    // za prvi ispis
+    if(redni_broj > 1){
+    code("\n\tmovl $%d, brojac_stack #novi red pocinje odatle", 68 + 32 * (redni_broj - 2));
+    }
+
+    code("\n	addl brojac_stack, %%esp #vracanje stack pointera na prvi sledeci koji nije prazan");
+    code("\n	#racunanje praznih znakova");
+    code("\n	movl $4, %%eax");
+    code("\n	subl zuti, %%eax");
+    code("\n	subl crveni, %%eax");
+    code("\n	movl $4, %%ebx");
+    code("\n	mull %%ebx");
+    code("\n	subl %%eax, %%esp #ovako se ostavljaju prazna mesta na stacku za prikaz praznih mesta");
+    code("\npetlja_zuti%d:", redni_broj);
+    code("\n	decl zuti");
+    code("\n	js petlja_crveni%d", redni_broj);
+    code("\n	pushl $znak_zuti");
+    code("\n	jmp petlja_zuti%d", redni_broj);
+    code("\npetlja_crveni%d:", redni_broj);
+    code("\n	decl crveni");
+    code("\n	js kombinacija%d", redni_broj);
+    code("\n	pushl $znak_crveni");
+    code("\n	jmp petlja_crveni%d", redni_broj);
+    code("\nkombinacija%d:", redni_broj);
+    code("\n	movl $4, %%eax #brojac");
+    code("\npetlja_komb%d:", redni_broj);
+    code("\n	decl %%eax");
+
+    // skok na sledecu kombinaciju
+    code("\n	js kombinacija_broj%d", redni_broj + 1);
+
+    code("\n	cmpb $0b01000000, pokusaj");
+    code("\n	ja upisi_skocko%d", redni_broj);
+    code("\n	je upisi_tref%d", redni_broj);
+    code("\n	cmpb $0b00010000, pokusaj");
+    code("\n	ja upisi_pik%d", redni_broj);
+    code("\n	je upisi_herc%d", redni_broj);
+    code("\n	cmpb $0b00000100, pokusaj");
+    code("\n	ja upisi_karo%d", redni_broj);
+    code("\nupisi_zvezda%d:", redni_broj);
+    code("\n	pushl $znak_zvezda");
+    code("\n	jmp brojac_petlja_komb%d", redni_broj);
+    code("\nupisi_skocko%d:", redni_broj);
+    code("\n	pushl $znak_skocko");
+    code("\n	jmp brojac_petlja_komb%d", redni_broj);
+    code("\nupisi_tref%d:", redni_broj);
+    code("\n	pushl $znak_tref");
+    code("\n	jmp brojac_petlja_komb%d", redni_broj);
+    code("\nupisi_pik%d:", redni_broj);
+    code("\n	pushl $znak_pik");
+    code("\n	jmp brojac_petlja_komb%d", redni_broj);
+    code("\nupisi_herc%d:", redni_broj);
+    code("\n	pushl $znak_herc");
+    code("\n	jmp brojac_petlja_komb%d", redni_broj);
+    code("\nupisi_karo%d:", redni_broj);
+    code("\n	pushl $znak_karo");
+    code("\nbrojac_petlja_komb%d:", redni_broj);
+    code("\n	shrl $8, pokusaj");
+    code("\n	jmp petlja_komb%d", redni_broj);
+    code("\n\nkombinacija_broj%d:", redni_broj + 1);
+	code("\n\tsubl $32, brojac_stack #posto je pushovano 8 argumenata");
+	code("\n\tsubl brojac_stack, %%esp #vraca se stack pointer na vrh stack-a");
+    // kod za cekanje za ispis sledece kombinacije
+    code("\n\tpushl $2");
+	code("\n\tcall sleep");
+    code("\n\taddl $4, %%esp");
+
+	code("\n\tcall printf");
+	code("\n\tcmpl $1, pogodjena_kombinacija");
+	code("\n\tje poruka_pogodjena");
+    
     }
 
 void generisi_trazenu_kombinaciju(enum Znak * kombinacija){
@@ -314,8 +416,11 @@ void generisi_trazenu_kombinaciju(enum Znak * kombinacija){
     code("\n	movl $36, brojac_stack #postavlja se vrednost brojaca stack pomnozena sa 4 (velicina long)");
     code("\n");
     code("\n	call napravi_kombinacije");
-    code("\n    movl $%d, %%ebx", 0b10000000100000001000000010000000);
-}
+
+    // generisem trazenu kombinaciju direktno umesto random
+    code("\n\tmovl $%d, %%ebx", enkodiraj_kombinaciju(kombinacija));
+    code("\n\tmovl %%ebx, trazena_kombinacija");
+    }
 
 void generisi_kraj(){
     code("\nporuka_pogodjena:");

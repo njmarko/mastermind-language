@@ -88,13 +88,6 @@
 
     FILE *output;
 
-    #define BROJ_ZNAKOVA 6
-    #define VELICINA_KOMBINACIJE 4
-    #define BROJ_ZNAKOVA_TABLA 48
-    #define tabla_args(a) a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14], a[15], a[16], a[17], a[18], a[19], a[20], a[21], a[22], a[23], a[24], a[25], a[26], a[27], a[28], a[29], a[30], a[31], a[32], a[33], a[34], a[35], a[36], a[37], a[38], a[39], a[40], a[41], a[42], a[43], a[44], a[45], a[46], a[47]
-    #define red_args(a) a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]
-    #define komb_trazena_args(a) a[0], a[1], a[2], a[3]
-    #define NEISPRAVAN_ZNAK -1
 
 
     char * znakovi_za_ispis[9] = {znak_skocko, znak_tref, znak_pik, znak_herc, znak_karo, znak_zvezda};
@@ -207,7 +200,6 @@
         napravi_random_trazenu_kombinaciju();
 
         generisi_trazenu_kombinaciju(trazena_kombinacija);
-        generisi_kraj();
 
         napravi_histogram(trazena_kombinacija, histogram_trazene_kombinacije);
         printf(tabla, tabla_args(znakovi_za_tablu));
@@ -223,6 +215,7 @@
           printf("%s", poruka_kraj_partije);
         } else {
           printf("%s", poruka_unos);
+          generisi_unetu_kombinaciju(unesena_kombinacija, broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
         }
     }
 
@@ -260,7 +253,7 @@
 
 
 
-#line 264 "скочко.tab.c"
+#line 257 "скочко.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -319,12 +312,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 196 "скочко.y"
+#line 189 "скочко.y"
 
     int i;
     char *s;
 
-#line 328 "скочко.tab.c"
+#line 321 "скочко.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -700,8 +693,8 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   212,   212,   219,   220,   224,   232,   231,   237,   236,
-     244,   245,   249,   253,   260,   264
+       0,   205,   205,   213,   214,   219,   227,   226,   232,   231,
+     239,   240,   244,   248,   255,   259
 };
 #endif
 
@@ -1494,71 +1487,73 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 213 "скочко.y"
+#line 206 "скочко.y"
     {
+      generisi_kraj();
       YYACCEPT;
     }
-#line 1502 "скочко.tab.c"
+#line 1496 "скочко.tab.c"
     break;
 
   case 4:
-#line 221 "скочко.y"
+#line 215 "скочко.y"
     {
+      generisi_kraj();
       YYACCEPT;
     }
-#line 1510 "скочко.tab.c"
+#line 1505 "скочко.tab.c"
     break;
 
   case 5:
-#line 225 "скочко.y"
+#line 220 "скочко.y"
     {
       printf("%s", poruka_pocetak_partije);
     }
-#line 1518 "скочко.tab.c"
+#line 1513 "скочко.tab.c"
     break;
 
   case 6:
+#line 227 "скочко.y"
+    {
+      nova_igra();
+    }
+#line 1521 "скочко.tab.c"
+    break;
+
+  case 8:
 #line 232 "скочко.y"
     {
       nova_igra();
     }
-#line 1526 "скочко.tab.c"
-    break;
-
-  case 8:
-#line 237 "скочко.y"
-    {
-      nova_igra();
-    }
-#line 1534 "скочко.tab.c"
+#line 1529 "скочко.tab.c"
     break;
 
   case 12:
-#line 250 "скочко.y"
+#line 245 "скочко.y"
     {
         unesi_znak((yyvsp[0].i));
     }
-#line 1542 "скочко.tab.c"
+#line 1537 "скочко.tab.c"
     break;
 
   case 13:
-#line 254 "скочко.y"
+#line 249 "скочко.y"
     {
         unesi_znak((yyvsp[0].i));
     }
-#line 1550 "скочко.tab.c"
+#line 1545 "скочко.tab.c"
     break;
 
   case 14:
-#line 261 "скочко.y"
+#line 256 "скочко.y"
     {
       (yyval.i) = (yyvsp[0].i);
     }
-#line 1558 "скочко.tab.c"
+#line 1553 "скочко.tab.c"
     break;
 
   case 15:
-#line 265 "скочко.y"
+#line 260 "скочко.y"
     {
       if(provera_broja_za_znak(atoi((yyvsp[0].s)))){
         (yyval.i) = atoi((yyvsp[0].s)) - 1;
@@ -1566,11 +1561,11 @@ yyreduce:
         (yyval.i) = NEISPRAVAN_ZNAK;
       }
     }
-#line 1570 "скочко.tab.c"
+#line 1565 "скочко.tab.c"
     break;
 
 
-#line 1574 "скочко.tab.c"
+#line 1569 "скочко.tab.c"
 
       default: break;
     }
@@ -1802,7 +1797,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 276 "скочко.y"
+#line 271 "скочко.y"
 
 
 int yyerror(char *s) {

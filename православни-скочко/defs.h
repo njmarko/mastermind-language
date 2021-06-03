@@ -67,6 +67,15 @@ static char * poruka_broj_van_opsega_znaka = "\n\033[1;32mПодржани су 
 #define znak_zuti  "\033[1;33m\u25CF\033[0m\0"
 #define znak_prazan  "\0\033[0m\0"
 #define ocisti_ekran "\033[2J\0"
+
+
+#define BROJ_ZNAKOVA 6
+#define VELICINA_KOMBINACIJE 4
+#define BROJ_ZNAKOVA_TABLA 48
+#define tabla_args(a) a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14], a[15], a[16], a[17], a[18], a[19], a[20], a[21], a[22], a[23], a[24], a[25], a[26], a[27], a[28], a[29], a[30], a[31], a[32], a[33], a[34], a[35], a[36], a[37], a[38], a[39], a[40], a[41], a[42], a[43], a[44], a[45], a[46], a[47]
+#define red_args(a) a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]
+#define komb_trazena_args(a) a[0], a[1], a[2], a[3]
+#define NEISPRAVAN_ZNAK -1
                           
 
 #endif

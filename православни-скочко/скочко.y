@@ -19,13 +19,6 @@
 
     FILE *output;
 
-    #define BROJ_ZNAKOVA 6
-    #define VELICINA_KOMBINACIJE 4
-    #define BROJ_ZNAKOVA_TABLA 48
-    #define tabla_args(a) a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14], a[15], a[16], a[17], a[18], a[19], a[20], a[21], a[22], a[23], a[24], a[25], a[26], a[27], a[28], a[29], a[30], a[31], a[32], a[33], a[34], a[35], a[36], a[37], a[38], a[39], a[40], a[41], a[42], a[43], a[44], a[45], a[46], a[47]
-    #define red_args(a) a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]
-    #define komb_trazena_args(a) a[0], a[1], a[2], a[3]
-    #define NEISPRAVAN_ZNAK -1
 
 
     char * znakovi_za_ispis[9] = {znak_skocko, znak_tref, znak_pik, znak_herc, znak_karo, znak_zvezda};
@@ -138,7 +131,6 @@
         napravi_random_trazenu_kombinaciju();
 
         generisi_trazenu_kombinaciju(trazena_kombinacija);
-        generisi_kraj();
 
         napravi_histogram(trazena_kombinacija, histogram_trazene_kombinacije);
         printf(tabla, tabla_args(znakovi_za_tablu));
@@ -154,6 +146,7 @@
           printf("%s", poruka_kraj_partije);
         } else {
           printf("%s", poruka_unos);
+          generisi_unetu_kombinaciju(unesena_kombinacija, broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
         }
     }
 
@@ -211,6 +204,7 @@
 program
     : znakovi_pre_pocetka igra _KRAJ
     {
+      generisi_kraj();
       YYACCEPT;
     }
     ; 
@@ -219,6 +213,7 @@ znakovi_pre_pocetka
     : /* empty */
     | znakovi_pre_pocetka _KRAJ
     {
+      generisi_kraj();
       YYACCEPT;
     }
     | znakovi_pre_pocetka unos_za_znak
