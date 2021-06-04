@@ -190,10 +190,10 @@
 
     void kompajliraj_izlaz(){
           // char * komanda = "gcc igra.S -m32 -o igra";
-          char * komanda = ".S -m32 -o igra";
+          char * komanda = " -m32 -o igra";
           char buff[1000];
-          snprintf(buff, sizeof(buff), "gcc igra%d%s%d", broj_partije, komanda, broj_partije);
-          // system(buff);
+          snprintf(buff, sizeof(buff), "gcc igra%d.S%s%d", broj_partije, komanda, broj_partije);
+          system(buff);
     }
 
     void napravi_zerobyte_fajl(){
@@ -204,9 +204,9 @@
           snprintf(buff, sizeof(buff), "%s%d.S%s", komanda, broj_partije, mod);
           system(buff);
           // obrisi fajl na osnovu koga je napravljen zerobytes fajl
-          char rm_command_buff[1000];
+          // char rm_command_buff[1000];
           // snprintf(rm_command_buff, sizeof(rm_command_buff), "rm igra%d", broj_partije);
-          system(rm_command_buff);
+          // system(rm_command_buff);
     }
 
     void zavrsi_upis_u_fajl(){
