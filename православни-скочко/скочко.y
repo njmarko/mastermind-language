@@ -121,12 +121,14 @@
         if (!igra_zavrsena)
         {
           generisi_kraj(broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
+          fclose(output);
         }
         igra_zavrsena = FALSE;
     }
 
     void nova_igra(){
         zavrsi_upis_u_fajl();
+        output = fopen("output.S", "w+");
         
         generisi_data_sekciju();
         generisi_pocetak_text_sekcije();
@@ -164,6 +166,7 @@
         if (igra_zavrsena)
         {
           generisi_kraj(broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
+          fclose(output);
         }
         
     }
@@ -306,7 +309,7 @@ int main(){
 
     int synerr;
     init_symtab();
-    output = fopen("output.S", "w+");
+    // output = fopen("output.S", "w+");
 
     printf("%s", poruka_pocetak_partije);
     synerr = yyparse();
@@ -314,7 +317,7 @@ int main(){
 
 
     clear_symtab();
-    fclose(output);
+    // fclose(output);
 
 
     return 0;

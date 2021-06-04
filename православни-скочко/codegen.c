@@ -394,6 +394,11 @@ void generisi_unetu_kombinaciju(enum Znak * kombinacija, int redni_broj){
 	code("\n\tcall sleep");
     code("\n\taddl $4, %%esp");
 
+    // kod za ciscenje ekrana
+    code("\n\tpushl $clr");
+    code("\n\tcall system");
+    code("\n\taddl $4, %%esp");
+
 	code("\n\tcall printf");
 	code("\n\tcmpl $1, pogodjena_kombinacija");
 	code("\n\tje poruka_pogodjena");

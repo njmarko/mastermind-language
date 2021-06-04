@@ -290,10 +290,10 @@ pripremi_stack: #gura 48 praznih stringova na stack zbog nacina koriscenja print
 	movl $36, brojac_stack #postavlja se vrednost brojaca stack pomnozena sa 4 (velicina long)
 
 	call napravi_kombinacije
-	movl $269516864, %ebx
+	movl $1075847172, %ebx
 	movl %ebx, trazena_kombinacija
 #-------celina za unos i racunanje
-	movl $-2139078592, %eax
+	movl $-2139062144, %eax
 	movl %eax, pokusaj
 	movl pokusaj, %eax
 	movl trazena_kombinacija, %ebx
@@ -365,11 +365,14 @@ kombinacija_broj2:
 	pushl $2
 	call sleep
 	addl $4, %esp
+	pushl $clr
+	call system
+	addl $4, %esp
 	call printf
 	cmpl $1, pogodjena_kombinacija
 	je poruka_pogodjena
 #-------celina za unos i racunanje
-	movl $-2143281120, %eax
+	movl $1077952576, %eax
 	movl %eax, pokusaj
 	movl pokusaj, %eax
 	movl trazena_kombinacija, %ebx
@@ -442,11 +445,14 @@ kombinacija_broj3:
 	pushl $2
 	call sleep
 	addl $4, %esp
+	pushl $clr
+	call system
+	addl $4, %esp
 	call printf
 	cmpl $1, pogodjena_kombinacija
 	je poruka_pogodjena
 #-------celina za unos i racunanje
-	movl $1082134544, %eax
+	movl $1075847200, %eax
 	movl %eax, pokusaj
 	movl pokusaj, %eax
 	movl trazena_kombinacija, %ebx
@@ -519,11 +525,14 @@ kombinacija_broj4:
 	pushl $2
 	call sleep
 	addl $4, %esp
+	pushl $clr
+	call system
+	addl $4, %esp
 	call printf
 	cmpl $1, pogodjena_kombinacija
 	je poruka_pogodjena
 #-------celina za unos i racunanje
-	movl $269516864, %eax
+	movl $1075847184, %eax
 	movl %eax, pokusaj
 	movl pokusaj, %eax
 	movl trazena_kombinacija, %ebx
@@ -596,21 +605,58 @@ kombinacija_broj5:
 	pushl $2
 	call sleep
 	addl $4, %esp
+	pushl $clr
+	call system
+	addl $4, %esp
 	call printf
 	cmpl $1, pogodjena_kombinacija
 	je poruka_pogodjena
-poruka_promasena:
+#-------celina za unos i racunanje
+	movl $1075841056, %eax
+	movl %eax, pokusaj
+	movl pokusaj, %eax
+	movl trazena_kombinacija, %ebx
+	call histogram
+	movl %esi, crveni
+	movl %edi, zuti
+	call izracunaj_preostale_1
+	cmpl $4, crveni
+	jne ispis5
+	movl $1, pogodjena_kombinacija
+
+#-------celina za ispis
+ispis5:
+	movl $164, brojac_stack #novi red pocinje odatle
+	addl brojac_stack, %esp #vracanje stack pointera na prvi sledeci koji nije prazan
+	#racunanje praznih znakova
+	movl $4, %eax
+	subl zuti, %eax
+	subl crveni, %eax
+	movl $4, %ebx
+	mull %ebx
+	subl %eax, %esp #ovako se ostavljaju prazna mesta na stacku za prikaz praznih mesta
+petlja_zuti5:
+	decl zuti
+	js petlja_crveni5
+	pushl $znak_zuti
+	jmp petlja_zuti5
+petlja_crveni5:
+	decl crveni
+	js kombinacija5
+	pushl $znak_crveni
+	jmp petlja_crveni5
+kombinacija5:
 	movl $4, %eax #brojac
 petlja_komb5:
 	decl %eax
-	js ispisi_pogresnu_kombinaciju
-	cmpb $0b01000000, trazena_kombinacija
+	js kombinacija_broj6
+	cmpb $0b01000000, pokusaj
 	ja upisi_skocko5
 	je upisi_tref5
-	cmpb $0b00010000, trazena_kombinacija
+	cmpb $0b00010000, pokusaj
 	ja upisi_pik5
 	je upisi_herc5
-	cmpb $0b00000100, trazena_kombinacija
+	cmpb $0b00000100, pokusaj
 	ja upisi_karo5
 upisi_zvezda5:
 	pushl $znak_zvezda
@@ -630,8 +676,134 @@ upisi_herc5:
 upisi_karo5:
 	pushl $znak_karo
 brojac_petlja_komb5:
-	shrl $8, trazena_kombinacija
+	shrl $8, pokusaj
 	jmp petlja_komb5
+
+kombinacija_broj6:
+	subl $32, brojac_stack #posto je pushovano 8 argumenata
+	subl brojac_stack, %esp #vraca se stack pointer na vrh stack-a
+	pushl $2
+	call sleep
+	addl $4, %esp
+	pushl $clr
+	call system
+	addl $4, %esp
+	call printf
+	cmpl $1, pogodjena_kombinacija
+	je poruka_pogodjena
+#-------celina za unos i racunanje
+	movl $134744072, %eax
+	movl %eax, pokusaj
+	movl pokusaj, %eax
+	movl trazena_kombinacija, %ebx
+	call histogram
+	movl %esi, crveni
+	movl %edi, zuti
+	call izracunaj_preostale_1
+	cmpl $4, crveni
+	jne ispis6
+	movl $1, pogodjena_kombinacija
+
+#-------celina za ispis
+ispis6:
+	movl $196, brojac_stack #novi red pocinje odatle
+	addl brojac_stack, %esp #vracanje stack pointera na prvi sledeci koji nije prazan
+	#racunanje praznih znakova
+	movl $4, %eax
+	subl zuti, %eax
+	subl crveni, %eax
+	movl $4, %ebx
+	mull %ebx
+	subl %eax, %esp #ovako se ostavljaju prazna mesta na stacku za prikaz praznih mesta
+petlja_zuti6:
+	decl zuti
+	js petlja_crveni6
+	pushl $znak_zuti
+	jmp petlja_zuti6
+petlja_crveni6:
+	decl crveni
+	js kombinacija6
+	pushl $znak_crveni
+	jmp petlja_crveni6
+kombinacija6:
+	movl $4, %eax #brojac
+petlja_komb6:
+	decl %eax
+	js kombinacija_broj7
+	cmpb $0b01000000, pokusaj
+	ja upisi_skocko6
+	je upisi_tref6
+	cmpb $0b00010000, pokusaj
+	ja upisi_pik6
+	je upisi_herc6
+	cmpb $0b00000100, pokusaj
+	ja upisi_karo6
+upisi_zvezda6:
+	pushl $znak_zvezda
+	jmp brojac_petlja_komb6
+upisi_skocko6:
+	pushl $znak_skocko
+	jmp brojac_petlja_komb6
+upisi_tref6:
+	pushl $znak_tref
+	jmp brojac_petlja_komb6
+upisi_pik6:
+	pushl $znak_pik
+	jmp brojac_petlja_komb6
+upisi_herc6:
+	pushl $znak_herc
+	jmp brojac_petlja_komb6
+upisi_karo6:
+	pushl $znak_karo
+brojac_petlja_komb6:
+	shrl $8, pokusaj
+	jmp petlja_komb6
+
+kombinacija_broj7:
+	subl $32, brojac_stack #posto je pushovano 8 argumenata
+	subl brojac_stack, %esp #vraca se stack pointer na vrh stack-a
+	pushl $2
+	call sleep
+	addl $4, %esp
+	pushl $clr
+	call system
+	addl $4, %esp
+	call printf
+	cmpl $1, pogodjena_kombinacija
+	je poruka_pogodjena
+poruka_promasena:
+	movl $4, %eax #brojac
+petlja_komb7:
+	decl %eax
+	js ispisi_pogresnu_kombinaciju
+	cmpb $0b01000000, trazena_kombinacija
+	ja upisi_skocko7
+	je upisi_tref7
+	cmpb $0b00010000, trazena_kombinacija
+	ja upisi_pik7
+	je upisi_herc7
+	cmpb $0b00000100, trazena_kombinacija
+	ja upisi_karo7
+upisi_zvezda7:
+	pushl $znak_zvezda
+	jmp brojac_petlja_komb7
+upisi_skocko7:
+	pushl $znak_skocko
+	jmp brojac_petlja_komb7
+upisi_tref7:
+	pushl $znak_tref
+	jmp brojac_petlja_komb7
+upisi_pik7:
+	pushl $znak_pik
+	jmp brojac_petlja_komb7
+upisi_herc7:
+	pushl $znak_herc
+	jmp brojac_petlja_komb7
+upisi_karo7:
+	pushl $znak_karo
+brojac_petlja_komb7:
+	shrl $8, trazena_kombinacija
+	jmp petlja_komb7
 ispisi_pogresnu_kombinaciju:
 	pushl $poruka_promasena_ispis
 	call printf
