@@ -1,28 +1,23 @@
 %{
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <time.h> 
-    #include "defs.h"
-    #include "symtab.h"
-    #include "codegen.h"
-    #include "скочко_логика.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "defs.h"
+#include "codegen.h"
+#include "скочко_логика.h"
 
-    int yyparse(void);
-    int yylex(void);
-    int yyerror(char *s);
-    void warning(char *s);
+  int yyparse(void);
+  int yylex(void);
+  int yyerror(char *s);
+  void warning(char *s);
 
-    extern int yylineno;
-    int out_lin = 0;
-    char char_buffer[CHAR_BUFFER_LENGTH];
-    int error_count = 0;
-    int warning_count = 0;
-
-
-
+  extern int yylineno;
+  int out_lin = 0;
+  char char_buffer[CHAR_BUFFER_LENGTH];
+  int error_count = 0;
+  int warning_count = 0;
 
 %}
-
 
 %union {
     int i;
@@ -125,17 +120,10 @@ int main(){
     srand(time(0));
 
     int synerr;
-    init_symtab();
-    // output = fopen("output.S", "w+");
 
     printf("%s", poruka_pocetak_partije);
     synerr = yyparse();
     printf("%s", poruka_kraj_programa);
-
-
-    clear_symtab();
-    // fclose(output);
-
 
     return 0;
 }

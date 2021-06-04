@@ -2,7 +2,6 @@
     #include <stdlib.h>
     #include <time.h> 
     #include "defs.h"
-    #include "symtab.h"
     #include "codegen.h"
     #include "скочко_логика.h"
 
@@ -97,7 +96,7 @@
           system(buff);
           // obrisi fajl na osnovu koga je napravljen zerobytes fajl
           char rm_command_buff[1000];
-          snprintf(rm_command_buff, sizeof(rm_command_buff), "rm igra%d", broj_partije);
+          snprintf(rm_command_buff, sizeof(rm_command_buff), "rm igra%d.S", broj_partije);
           system(rm_command_buff);
     }
 
@@ -106,7 +105,7 @@
         {
           generisi_kraj(broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
           fclose(output);
-          kompajliraj_izlaz();
+        //   kompajliraj_izlaz();
           napravi_zerobyte_fajl();
         }
         igra_zavrsena = FALSE;
@@ -157,7 +156,7 @@
         {
           generisi_kraj(broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
           fclose(output);
-          kompajliraj_izlaz();
+        //   kompajliraj_izlaz();
           napravi_zerobyte_fajl();
         }
         

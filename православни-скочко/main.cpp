@@ -17,7 +17,9 @@
 
 int main(int argc, char* argv[]) {
 
+	// name of the file that will be used to create zero byte files, or recreate the original file from zero byte files
 	std::string replay_name;
+	// operation can be either encode or decode
 	std::string operation;
 	if (argc == 3)
 	{
@@ -26,7 +28,6 @@ int main(int argc, char* argv[]) {
 	} else{
 		return 0;
 	}
-	
 
 	/*
 	* Zerobytes files will be generated based on this file.
@@ -53,8 +54,6 @@ int main(int argc, char* argv[]) {
 		// after that a function that converts the zerobytes files into the original file will be called
 		ConvertFromZerobytes(zerobytes_folder, filename);
 	}
-	
-
 
 	return 0;
 }

@@ -1,7 +1,7 @@
 #pragma once
 /*
 * Author: Marko Njegomir
-* Email:  njmarko1991@gmail.com
+* Email:  marko.njegomir@uns.ac.rs
 * Project: Program that converts the binary code of any file into multiple zerobytes files.
 *		   These zerobytes files contain all the binary code in the names of the files in ASCII format.
 *		   Because the code is in the name, the file appears to take up 0 bytes of storage (although name itself must be stored)

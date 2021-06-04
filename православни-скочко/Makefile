@@ -9,30 +9,20 @@ ifeq ($(SRC),скочко)
     CGENC = codegen.c
     CGENH = codegen.h
 endif
-# da li je prisutan simulator?
-ifeq ($(wildcard ./hipsim),)
-   COMPILE_SIM = $(wildcard ./hipsim-src/Makefile)
-else
-    COMPILE_SIM =
-endif
 # fajlovi od kojih se sastoji kompajler
-COMPILER_BUILD = lex.yy.c $(SRC).tab.c symtab.c скочко_логика.c $(CGENC)
+COMPILER_BUILD = lex.yy.c $(SRC).tab.c скочко_логика.c $(CGENC)
 # fajlovi od kojih zavisi ponovno prevođenje
-COMPILER_DEPENDS = $(COMPILER_BUILD) defs.h symtab.h скочко_логика.h $(CGENH)
+COMPILER_DEPENDS = $(COMPILER_BUILD) defs.h скочко_логика.h $(CGENH)
 # fajlovi koje treba pobrisati da bi ostao samo izvorni kod
 COMPILER_CLEAN = lex.yy.c $(SRC).tab.c $(SRC).tab.h $(SRC).output $(SRC) *.?~ *.mc~ .make.out* *.asm *.S Makefile~ *.txt~
 # ako treba pokrenuti replay uneti ime samo ime fajl bez .S ekstenzije
 REPLAY = ""
 
 # pravila koja ne generišu nove fajlove
-.PHONY: clean test det archive help
+.PHONY: clean archive help
 
 # osnovno pravilo za prevođenje kompajlera
 $(SRC): $(COMPILER_DEPENDS)
-	@if [ "$(COMPILE_SIM)" != "" ]; then \
-		echo -e "\e[01;32mSIMULATOR...\e[00m"; \
-		make --silent -C ./hipsim-src/ SIMULATOR_PATH=../; \
-	fi
 	@echo -e "\e[01;32mGCC...\e[00m"
 	@-rm -f $(SRC) .make.out2 2>/dev/null
 	@g++ main.cpp ZeroBytesConversion.cpp -m32 -lstdc++fs -o zeroBytes

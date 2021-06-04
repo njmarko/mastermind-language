@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "codegen.h"
-#include "symtab.h"
 #include "defs.h"
 #include "math.h"
 

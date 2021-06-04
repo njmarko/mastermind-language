@@ -3,7 +3,6 @@
     #include <stdlib.h>
     #include <time.h> 
     #include "defs.h"
-    #include "symtab.h"
     #include "codegen.h"
 
     FILE *output;

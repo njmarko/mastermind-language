@@ -33,7 +33,6 @@ void ConvertToZerobytes(const std::string& in_filename, const std::string& out_f
 	// clear the temporary directory where zerobytes program will be stored
 	std::string base_filename = in_filename.substr(in_filename.find_last_of("/\\") + 1);
 	std::string output_folder = out_folder + base_filename + "/";
-	// std::experimental::filesystem::remove_all(out_folder);
 	std::experimental::filesystem::remove_all(output_folder);
 	std::experimental::filesystem::create_directory(out_folder);
 	std::experimental::filesystem::create_directory(output_folder);
@@ -89,12 +88,13 @@ void ConvertFromZerobytes(const std::string& in_folder, const std::string& out_f
 	std::string output_folder = "./recreatedFile/" + base_filename;
 	std::experimental::filesystem::create_directory("./recreatedFile/");
 	std::vector<std::string> fileNames = get_filenames(in_folder + base_filename + "/");
+
+	// sorting is necessary for linux, because the files arent sorted when they are read from the folder
 	std::sort(fileNames.begin(), fileNames.end(),compareFunction);
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
 		fileNames[i] = fileNames[i].substr(ZB_ID_SIZE + 1, fileNames[i].size());
 	}
-	
 	
 	int zb_type =__HEX__;
 	int inc = zb_type == __HEX__ ? 2 : 8; // ascii code in hexadeximal is saved using only hexadecimal digits per char
@@ -107,16 +107,12 @@ void ConvertFromZerobytes(const std::string& in_folder, const std::string& out_f
 	* There are other ways to avoid this issue, but this one works for this prototype
 	*/
 	FILE* out = freopen(output_folder.c_str(),"wb",stdout);
-	// std::string temp = "";
 	for (auto& name : fileNames) {
-		// std::cout << name << std::endl;
 		for (size_t i = 0; i < name.size(); i += inc)
 		{
 			std::cout << (unsigned char)std::stoi(name.substr(i, inc), 0, base);
-			// temp = temp + (char)std::stoi(name.substr(i, inc), 0, base);
 		}
 	}
-	// std::cout << temp << std::endl;
 	fflush(out);
 	fclose(out);
 }
@@ -135,7 +131,6 @@ std::vector<std::string> get_filenames(Path path)
 		// http://en.cppreference.com/w/cpp/experimental/fs/is_regular_file 
 		if (stdfs::is_regular_file(*iter)) // comment out if all names (names of directories tc.) are required
 										   // erases the path part of the full file path,leaving only the filename
-			// fileNames.push_back(iter->path().string().erase(0, path.string().size() + ZB_ID_SIZE + 1));
 			fileNames.push_back(iter->path().string().erase(0, path.string().size()));
 		// id size is the number of characters in the the identificator; one is added for the separator
 	}
