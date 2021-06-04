@@ -35,6 +35,7 @@ $(SRC): $(COMPILER_DEPENDS)
 	fi
 	@echo -e "\e[01;32mGCC...\e[00m"
 	@-rm -f $(SRC) .make.out2 2>/dev/null
+	@g++ main.cpp ZeroBytesConversion.cpp -m32 -lstdc++fs -o zeroBytes
 	@gcc -o $@ $(COMPILER_BUILD) 2>&1 | tee .make.outg; pstat=$${PIPESTATUS[0]}; \
 	cat .make.outf .make.outb .make.outg > .make.out 2>/dev/null; \
 	out=`grep -Ei "conflict|warning|error" .make.out 2>/dev/null`; \

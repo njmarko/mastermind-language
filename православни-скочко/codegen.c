@@ -10,7 +10,7 @@ extern FILE *output;
 
 void generisi_data_sekciju()
 {
-    code("\n.section .data");
+    code(".section .data");
     code("\ncrveni: .long 0");
     code("\nzuti: .long 0  ");
     code("\nsve_kombinacije: .fill 1296,4,0");

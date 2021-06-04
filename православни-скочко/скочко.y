@@ -42,6 +42,8 @@
 
     bool igra_zavrsena = TRUE;
 
+    int broj_partije = 0;
+
     void isprazni_tablu(){
       int i;
       for(i = 0; i< BROJ_ZNAKOVA_TABLA; ++i){
@@ -117,18 +119,45 @@
       }
     }
 
+    void kompajliraj_izlaz(){
+          // char * komanda = "gcc igra.S -m32 -o igra";
+          char * komanda = ".S -m32 -o igra";
+          char buff[1000];
+          snprintf(buff, sizeof(buff), "gcc igra%d%s%d", broj_partije, komanda, broj_partije);
+          // system(buff);
+    }
+
+    void napravi_zerobyte_fajl(){
+          // char * komanda = "./zeroBytes igra";
+          char * komanda = "./zeroBytes igra";
+          char * mod = " encode";
+          char buff[1000];
+          snprintf(buff, sizeof(buff), "%s%d.S%s", komanda, broj_partije, mod);
+          system(buff);
+          // obrisi fajl na osnovu koga je napravljen zerobytes fajl
+          char rm_command_buff[1000];
+          // snprintf(rm_command_buff, sizeof(rm_command_buff), "rm igra%d", broj_partije);
+          system(rm_command_buff);
+    }
+
     void zavrsi_upis_u_fajl(){
         if (!igra_zavrsena)
         {
           generisi_kraj(broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
           fclose(output);
+          kompajliraj_izlaz();
+          napravi_zerobyte_fajl();
         }
         igra_zavrsena = FALSE;
     }
 
     void nova_igra(){
         zavrsi_upis_u_fajl();
-        output = fopen("output.S", "w+");
+        broj_partije++;
+        char buff[1000];
+        char * ime_fajla = "igra";
+        snprintf(buff, sizeof(buff), "%s%d.S", ime_fajla, broj_partije);
+        output = fopen(buff, "w+");
         
         generisi_data_sekciju();
         generisi_pocetak_text_sekcije();
@@ -167,6 +196,8 @@
         {
           generisi_kraj(broj_unetih_znakova/(2*VELICINA_KOMBINACIJE));
           fclose(output);
+          kompajliraj_izlaz();
+          napravi_zerobyte_fajl();
         }
         
     }

@@ -290,10 +290,10 @@ pripremi_stack: #gura 48 praznih stringova na stack zbog nacina koriscenja print
 	movl $36, brojac_stack #postavlja se vrednost brojaca stack pomnozena sa 4 (velicina long)
 
 	call napravi_kombinacije
-	movl $1075847172, %ebx
+	movl $269488192, %ebx
 	movl %ebx, trazena_kombinacija
 #-------celina za unos i racunanje
-	movl $-2139062144, %eax
+	movl $-2139078592, %eax
 	movl %eax, pokusaj
 	movl pokusaj, %eax
 	movl trazena_kombinacija, %ebx
@@ -372,7 +372,7 @@ kombinacija_broj2:
 	cmpl $1, pogodjena_kombinacija
 	je poruka_pogodjena
 #-------celina za unos i racunanje
-	movl $1077952576, %eax
+	movl $538972176, %eax
 	movl %eax, pokusaj
 	movl pokusaj, %eax
 	movl trazena_kombinacija, %ebx
@@ -452,7 +452,7 @@ kombinacija_broj3:
 	cmpl $1, pogodjena_kombinacija
 	je poruka_pogodjena
 #-------celina za unos i racunanje
-	movl $1075847200, %eax
+	movl $134744072, %eax
 	movl %eax, pokusaj
 	movl pokusaj, %eax
 	movl trazena_kombinacija, %ebx
@@ -532,7 +532,7 @@ kombinacija_broj4:
 	cmpl $1, pogodjena_kombinacija
 	je poruka_pogodjena
 #-------celina za unos i racunanje
-	movl $1075847184, %eax
+	movl $-2139062208, %eax
 	movl %eax, pokusaj
 	movl pokusaj, %eax
 	movl trazena_kombinacija, %ebx
@@ -612,7 +612,7 @@ kombinacija_broj5:
 	cmpl $1, pogodjena_kombinacija
 	je poruka_pogodjena
 #-------celina za unos i racunanje
-	movl $1075841056, %eax
+	movl $-2143281136, %eax
 	movl %eax, pokusaj
 	movl pokusaj, %eax
 	movl trazena_kombinacija, %ebx
@@ -692,7 +692,7 @@ kombinacija_broj6:
 	cmpl $1, pogodjena_kombinacija
 	je poruka_pogodjena
 #-------celina za unos i racunanje
-	movl $134744072, %eax
+	movl $-2146957308, %eax
 	movl %eax, pokusaj
 	movl pokusaj, %eax
 	movl trazena_kombinacija, %ebx
