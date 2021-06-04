@@ -21,7 +21,7 @@ extern int yyerror(char *s);
 #define err(args...)  sprintf(char_buffer, args), yyerror(char_buffer)
 #define warn(args...) sprintf(char_buffer, args), warning(char_buffer)
 #define code(args...) ({fprintf(output, args); \
-          if (++out_lin > 2000) err("Too many output lines"), exit(1); })
+          if (++out_lin > 200000000) err("Too many output lines"), exit(1); })
 
 
 //tipovi podataka

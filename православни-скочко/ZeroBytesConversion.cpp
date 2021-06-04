@@ -33,7 +33,8 @@ void ConvertToZerobytes(const std::string& in_filename, const std::string& out_f
 	// clear the temporary directory where zerobytes program will be stored
 	std::string base_filename = in_filename.substr(in_filename.find_last_of("/\\") + 1);
 	std::string output_folder = out_folder + base_filename + "/";
-	std::experimental::filesystem::remove_all(out_folder);
+	// std::experimental::filesystem::remove_all(out_folder);
+	std::experimental::filesystem::remove_all(output_folder);
 	std::experimental::filesystem::create_directory(out_folder);
 	std::experimental::filesystem::create_directory(output_folder);
 	std::stringstream stream;
