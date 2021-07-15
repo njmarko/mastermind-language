@@ -59,7 +59,7 @@ void ConvertToZerobytes(const std::string& in_filename, const std::string& out_f
 		}
 		else if (zb_type == __HEX__)
 		{
-			// using string strim as a way to get hexadecimal representation of the digit
+			// using string stream as a way to get hexadecimal representation of the digit
 			stream << std::hex << (unsigned int)d;
 			temp = stream.str(); // helper variable for making sure all hex numbers have 2 digits
 			if (temp.size() < 2)

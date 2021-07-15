@@ -7,6 +7,18 @@
 
 extern FILE *output;
 
+int enkodiraj_kombinaciju(enum Znak *kombinacija)
+{
+
+    int i;
+    int enkodirana_kombinacija = 0;
+    for (i = 0; i < VELICINA_KOMBINACIJE; ++i)
+    {
+        enkodirana_kombinacija = enkodirana_kombinacija << 8 ^ (0x80 >> kombinacija[i]);
+    }
+    return enkodirana_kombinacija;
+}
+
 void generisi_data_sekciju()
 {
     code(".section .data");
@@ -50,7 +62,8 @@ void generisi_data_sekciju()
     code("\nclr: .ascii \"clear\"");
 }
 
-void generisi_pocetak_text_sekcije(){
+void generisi_pocetak_text_sekcije()
+{
     code("\n.section .text");
     code("\n.globl main");
 }
@@ -296,17 +309,8 @@ void generisi_pomocne_funkcije()
     code("\n%s", "povratak_input:	ret");
 }
 
-int enkodiraj_kombinaciju(enum Znak * kombinacija){
-
-    int i;
-    int enkodirana_kombinacija = 0;
-    for(i = 0; i < VELICINA_KOMBINACIJE; ++i){            
-        enkodirana_kombinacija = enkodirana_kombinacija << 8 ^ (0x80 >> kombinacija[i]);
-    }
-    return enkodirana_kombinacija;
-}
-
-void generisi_unetu_kombinaciju(enum Znak * kombinacija, int redni_broj){
+void generisi_unetu_kombinaciju(enum Znak *kombinacija, int redni_broj)
+{
     code("\n#-------celina za unos i racunanje");
 
     // unosim kombinaciju direktno u pokusaj
@@ -327,8 +331,9 @@ void generisi_unetu_kombinaciju(enum Znak * kombinacija, int redni_broj){
     code("\nispis%d:", redni_broj);
 
     // za prvi ispis
-    if(redni_broj > 1){
-    code("\n\tmovl $%d, brojac_stack #novi red pocinje odatle", 68 + 32 * (redni_broj - 2));
+    if (redni_broj > 1)
+    {
+        code("\n\tmovl $%d, brojac_stack #novi red pocinje odatle", 68 + 32 * (redni_broj - 2));
     }
 
     code("\n	addl brojac_stack, %%esp #vracanje stack pointera na prvi sledeci koji nije prazan");
@@ -386,11 +391,11 @@ void generisi_unetu_kombinaciju(enum Znak * kombinacija, int redni_broj){
     code("\n	shrl $8, pokusaj");
     code("\n	jmp petlja_komb%d", redni_broj);
     code("\n\nkombinacija_broj%d:", redni_broj + 1);
-	code("\n\tsubl $32, brojac_stack #posto je pushovano 8 argumenata");
-	code("\n\tsubl brojac_stack, %%esp #vraca se stack pointer na vrh stack-a");
+    code("\n\tsubl $32, brojac_stack #posto je pushovano 8 argumenata");
+    code("\n\tsubl brojac_stack, %%esp #vraca se stack pointer na vrh stack-a");
     // kod za cekanje za ispis sledece kombinacije
     code("\n\tpushl $2");
-	code("\n\tcall sleep");
+    code("\n\tcall sleep");
     code("\n\taddl $4, %%esp");
 
     // kod za ciscenje ekrana
@@ -398,13 +403,13 @@ void generisi_unetu_kombinaciju(enum Znak * kombinacija, int redni_broj){
     code("\n\tcall system");
     code("\n\taddl $4, %%esp");
 
-	code("\n\tcall printf");
-	code("\n\tcmpl $1, pogodjena_kombinacija");
-	code("\n\tje poruka_pogodjena");
-    
-    }
+    code("\n\tcall printf");
+    code("\n\tcmpl $1, pogodjena_kombinacija");
+    code("\n\tje poruka_pogodjena");
+}
 
-void generisi_trazenu_kombinaciju(enum Znak * kombinacija){
+void generisi_trazenu_kombinaciju(enum Znak *kombinacija)
+{
     code("\nmain:");
     code("\n\tpushl $clr");
     code("\n\tcall system");
@@ -424,9 +429,10 @@ void generisi_trazenu_kombinaciju(enum Znak * kombinacija){
     // generisem trazenu kombinaciju direktno umesto random
     code("\n\tmovl $%d, %%ebx", enkodiraj_kombinaciju(kombinacija));
     code("\n\tmovl %%ebx, trazena_kombinacija");
-    }
+}
 
-void generisi_kraj(int redni_broj){
+void generisi_kraj(int redni_broj)
+{
     // max koji dospe ovde je 6 pa ga uvecam da bude 7
     redni_broj++;
 
@@ -468,551 +474,6 @@ void generisi_kraj(int redni_broj){
     code("\n	call printf");
     code("\n	jmp kraj");
 
-    code("\nporuka_pogodjena:");
-    code("\n	movl $4, %%eax");
-    code("\n	movl $1, %%ebx");
-    code("\n	leal poruka_pogodjena_ispis, %%ecx");
-    code("\n	movl $poruka_pogodjena_len, %%edx ");
-    code("\n	int $0x80");
-    code("\n	jmp kraj");
-    code("\n	");
-    code("\nkraj:");
-    code("\n	movl $1, %%eax");
-    code("\n	movl $0, %%ebx");
-    code("\n	int $0x80");
-}
-
-
-void generisi_interaktivnu_igru()
-{
-
-    code("\nmain:");
-    code("\n	movl $4, %%eax");
-    code("\n	movl $1, %%ebx");
-    code("\n	leal clear, %%ecx");
-    code("\n	movl $clear_len, %%edx ");
-    code("\n	int $0x80");
-    code("\n	movl $znak_prazan, %%eax #nula za stack");
-    code("\n	movl brojac_stack, %%ebx #brojac za stack br.48");
-    code("\npripremi_stack: #gura 48 praznih stringova na stack zbog nacina koriscenja printf funkcije");
-    code("\n	pushl %%eax");
-    code("\n	decl %%ebx");
-    code("\n	jnz pripremi_stack");
-    code("\n	pushl $multi_line_display");
-    code("\n	call printf");
-    code("\n	movl $36, brojac_stack #postavlja se vrednost brojaca stack pomnozena sa 4 (velicina long)");
-    code("\n");
-    code("\n	call napravi_kombinacije");
-    code("\n	call generisi_trazenu_kombinaciju");
-    code("\n#-------celina za unos i racunanje");
-    code("\n	call input_kombinacija");
-    code("\n	movl pokusaj, %%eax");
-    code("\n	movl trazena_kombinacija, %%ebx");
-    code("\n	call histogram");
-    code("\n	movl %%esi, crveni");
-    code("\n	movl %%edi, zuti");
-    code("\n	call izracunaj_preostale_1");
-    code("\n	cmpl $4, crveni");
-    code("\n	jne ispis1");
-    code("\n	movl $1, pogodjena_kombinacija");
-    code("\n");
-    code("\n#-------celina za ispis");
-    code("\nispis1:");
-    code("\n	addl brojac_stack, %%esp #vracanje stack pointera na prvi sledeci koji nije prazan");
-    code("\n	#racunanje praznih znakova");
-    code("\n	movl $4, %%eax");
-    code("\n	subl zuti, %%eax");
-    code("\n	subl crveni, %%eax");
-    code("\n	movl $4, %%ebx");
-    code("\n	mull %%ebx");
-    code("\n	subl %%eax, %%esp #ovako se ostavljaju prazna mesta na stacku za prikaz praznih mesta");
-    code("\npetlja_zuti1:");
-    code("\n	decl zuti");
-    code("\n	js petlja_crveni1");
-    code("\n	pushl $znak_zuti");
-    code("\n	jmp petlja_zuti1");
-    code("\npetlja_crveni1:");
-    code("\n	decl crveni");
-    code("\n	js kombinacija1");
-    code("\n	pushl $znak_crveni");
-    code("\n	jmp petlja_crveni1");
-    code("\nkombinacija1:");
-    code("\n	movl $4, %%eax #brojac");
-    code("\npetlja_komb1:");
-    code("\n	decl %%eax");
-    code("\n	js druga_kombinacija");
-    code("\n	cmpb $0b01000000, pokusaj");
-    code("\n	ja upisi_skocko1");
-    code("\n	je upisi_tref1");
-    code("\n	cmpb $0b00010000, pokusaj");
-    code("\n	ja upisi_pik1");
-    code("\n	je upisi_herc1");
-    code("\n	cmpb $0b00000100, pokusaj");
-    code("\n	ja upisi_karo1");
-    code("\nupisi_zvezda1:");
-    code("\n	pushl $znak_zvezda");
-    code("\n	jmp brojac_petlja_komb1");
-    code("\nupisi_skocko1:");
-    code("\n	pushl $znak_skocko");
-    code("\n	jmp brojac_petlja_komb1");
-    code("\nupisi_tref1:");
-    code("\n	pushl $znak_tref");
-    code("\n	jmp brojac_petlja_komb1");
-    code("\nupisi_pik1:");
-    code("\n	pushl $znak_pik");
-    code("\n	jmp brojac_petlja_komb1");
-    code("\nupisi_herc1:");
-    code("\n	pushl $znak_herc");
-    code("\n	jmp brojac_petlja_komb1");
-    code("\nupisi_karo1:");
-    code("\n	pushl $znak_karo");
-    code("\nbrojac_petlja_komb1:");
-    code("\n	shrl $8, pokusaj");
-    code("\n	jmp petlja_komb1");
-    code("\n");
-    code("\n");
-    code("\ndruga_kombinacija:");
-    code("\n	movl $4, %%eax");
-    code("\n	movl $1, %%ebx");
-    code("\n	leal clear, %%ecx");
-    code("\n	movl $clear_len, %%edx ");
-    code("\n	int $0x80");
-    code("\n	subl $32, brojac_stack #posto je pushovano 8 argumenata");
-    code("\n	subl brojac_stack, %%esp #vraca se stack pointer na vrh stack-a");
-    code("\n	call printf");
-    code("\n	cmpl $1, pogodjena_kombinacija");
-    code("\n	je poruka_pogodjena");
-    code("\n	");
-    code("\n#-------celina za unos i racunanje 2");
-    code("\n	call input_kombinacija");
-    code("\n	movl pokusaj, %%eax");
-    code("\n	movl trazena_kombinacija, %%ebx");
-    code("\n	call histogram");
-    code("\n	movl %%esi, crveni");
-    code("\n	movl %%edi, zuti");
-    code("\n	call izracunaj_preostale");
-    code("\n	cmpl $4, crveni");
-    code("\n	jne ispis2");
-    code("\n	movl $1, pogodjena_kombinacija");
-    code("\n");
-    code("\n#-------celina za ispis 2");
-    code("\nispis2:");
-    code("\n	movl $68, brojac_stack #drugi red pocinje odatle");
-    code("\n	addl brojac_stack, %%esp #vracanje stack pointera na prvi sledeci koji nije prazan");
-    code("\n	#racunanje praznih znakova");
-    code("\n	movl $4, %%eax");
-    code("\n	subl zuti, %%eax");
-    code("\n	subl crveni, %%eax");
-    code("\n	movl $4, %%ebx");
-    code("\n	mull %%ebx");
-    code("\n	subl %%eax, %%esp #ovako se ostavljaju prazna mesta na stacku za prikaz praznih mesta");
-    code("\npetlja_zuti2:");
-    code("\n	decl zuti");
-    code("\n	js petlja_crveni2");
-    code("\n	pushl $znak_zuti");
-    code("\n	jmp petlja_zuti2");
-    code("\npetlja_crveni2:");
-    code("\n	decl crveni");
-    code("\n	js kombinacija2");
-    code("\n	pushl $znak_crveni");
-    code("\n	jmp petlja_crveni2");
-    code("\nkombinacija2:");
-    code("\n	movl $4, %%eax #brojac");
-    code("\npetlja_komb2:");
-    code("\n	decl %%eax");
-    code("\n	js treca_kombinacija");
-    code("\n	cmpb $0b01000000, pokusaj");
-    code("\n	ja upisi_skocko2");
-    code("\n	je upisi_tref2");
-    code("\n	cmpb $0b00010000, pokusaj");
-    code("\n	ja upisi_pik2");
-    code("\n	je upisi_herc2");
-    code("\n	cmpb $0b00000100, pokusaj");
-    code("\n	ja upisi_karo2");
-    code("\nupisi_zvezda2:");
-    code("\n	pushl $znak_zvezda");
-    code("\n	jmp brojac_petlja_komb2");
-    code("\nupisi_skocko2:");
-    code("\n	pushl $znak_skocko");
-    code("\n	jmp brojac_petlja_komb2");
-    code("\nupisi_tref2:");
-    code("\n	pushl $znak_tref");
-    code("\n	jmp brojac_petlja_komb2");
-    code("\nupisi_pik2:");
-    code("\n	pushl $znak_pik");
-    code("\n	jmp brojac_petlja_komb2");
-    code("\nupisi_herc2:");
-    code("\n	pushl $znak_herc");
-    code("\n	jmp brojac_petlja_komb2");
-    code("\nupisi_karo2:");
-    code("\n	pushl $znak_karo");
-    code("\nbrojac_petlja_komb2:");
-    code("\n	shrl $8, pokusaj");
-    code("\n	jmp petlja_komb2");
-    code("\n");
-    code("\ntreca_kombinacija:");
-    code("\n	movl $4, %%eax");
-    code("\n	movl $1, %%ebx");
-    code("\n	leal clear, %%ecx");
-    code("\n	movl $clear_len, %%edx ");
-    code("\n	int $0x80");
-    code("\n	subl $32, brojac_stack #posto je pushovano 8 argumenata");
-    code("\n	subl brojac_stack, %%esp #vraca se stack pointer na vrh stack-a");
-    code("\n	call printf");
-    code("\n	cmpl $1, pogodjena_kombinacija");
-    code("\n	je poruka_pogodjena");
-    code("\n");
-    code("\n#-------celina za unos i racunanje 3");
-    code("\n	call input_kombinacija");
-    code("\n	movl pokusaj, %%eax");
-    code("\n	movl trazena_kombinacija, %%ebx");
-    code("\n	call histogram");
-    code("\n	movl %%esi, crveni");
-    code("\n	movl %%edi, zuti");
-    code("\n	call izracunaj_preostale");
-    code("\n	cmpl $4, crveni");
-    code("\n	jne ispis3");
-    code("\n	movl $1, pogodjena_kombinacija");
-    code("\n");
-    code("\n#-------celina za ispis 3");
-    code("\nispis3:");
-    code("\n	movl $100, brojac_stack #treci red pocinje odatle (u brojac_stack je ostala vrednost 4)");
-    code("\n	addl brojac_stack, %%esp #vracanje stack pointera na prvi sledeci koji nije prazan");
-    code("\n	#racunanje praznih znakova");
-    code("\n	movl $4, %%eax");
-    code("\n	subl zuti, %%eax");
-    code("\n	subl crveni, %%eax");
-    code("\n	movl $4, %%ebx");
-    code("\n	mull %%ebx");
-    code("\n	subl %%eax, %%esp #ovako se ostavljaju prazna mesta na stacku za prikaz praznih mesta");
-    code("\npetlja_zuti3:");
-    code("\n	decl zuti");
-    code("\n	js petlja_crveni3");
-    code("\n	pushl $znak_zuti");
-    code("\n	jmp petlja_zuti3");
-    code("\npetlja_crveni3:");
-    code("\n	decl crveni");
-    code("\n	js kombinacija3");
-    code("\n	pushl $znak_crveni");
-    code("\n	jmp petlja_crveni3");
-    code("\nkombinacija3:");
-    code("\n	movl $4, %%eax #brojac");
-    code("\npetlja_komb3:");
-    code("\n	decl %%eax");
-    code("\n	js cetvrta_kombinacija");
-    code("\n	cmpb $0b01000000, pokusaj");
-    code("\n	ja upisi_skocko3");
-    code("\n	je upisi_tref3");
-    code("\n	cmpb $0b00010000, pokusaj");
-    code("\n	ja upisi_pik3");
-    code("\n	je upisi_herc3");
-    code("\n	cmpb $0b00000100, pokusaj");
-    code("\n	ja upisi_karo3");
-    code("\nupisi_zvezda3:");
-    code("\n	pushl $znak_zvezda");
-    code("\n	jmp brojac_petlja_komb3");
-    code("\nupisi_skocko3:");
-    code("\n	pushl $znak_skocko");
-    code("\n	jmp brojac_petlja_komb3");
-    code("\nupisi_tref3:");
-    code("\n	pushl $znak_tref");
-    code("\n	jmp brojac_petlja_komb3");
-    code("\nupisi_pik3:");
-    code("\n	pushl $znak_pik");
-    code("\n	jmp brojac_petlja_komb3");
-    code("\nupisi_herc3:");
-    code("\n	pushl $znak_herc");
-    code("\n	jmp brojac_petlja_komb3");
-    code("\nupisi_karo3:");
-    code("\n	pushl $znak_karo");
-    code("\nbrojac_petlja_komb3:");
-    code("\n	shrl $8, pokusaj");
-    code("\n	jmp petlja_komb3");
-    code("\n");
-    code("\ncetvrta_kombinacija:");
-    code("\n	movl $4, %%eax");
-    code("\n	movl $1, %%ebx");
-    code("\n	leal clear, %%ecx");
-    code("\n	movl $clear_len, %%edx ");
-    code("\n	int $0x80");
-    code("\n	subl $32, brojac_stack #posto je pushovano 8 argumenata");
-    code("\n	subl brojac_stack, %%esp #vraca se stack pointer na vrh stack-a");
-    code("\n	call printf");
-    code("\n	cmpl $1, pogodjena_kombinacija");
-    code("\n	je poruka_pogodjena");
-    code("\n#-------celina za unos i racunanje 4");
-    code("\n	call input_kombinacija");
-    code("\n	movl pokusaj, %%eax");
-    code("\n	movl trazena_kombinacija, %%ebx");
-    code("\n	call histogram");
-    code("\n	movl %%esi, crveni");
-    code("\n	movl %%edi, zuti");
-    code("\n	call izracunaj_preostale");
-    code("\n	cmpl $4, crveni");
-    code("\n	jne ispis4");
-    code("\n	movl $1, pogodjena_kombinacija");
-    code("\n");
-    code("\n#-------celina za ispis 4");
-    code("\nispis4:");
-    code("\n	movl $132, brojac_stack #treci red pocinje odatle (u brojac_stack je ostala vrednost 4)");
-    code("\n	addl brojac_stack, %%esp #vracanje stack pointera na prvi sledeci koji nije prazan");
-    code("\n	#racunanje praznih znakova");
-    code("\n	movl $4, %%eax");
-    code("\n	subl zuti, %%eax");
-    code("\n	subl crveni, %%eax");
-    code("\n	movl $4, %%ebx");
-    code("\n	mull %%ebx");
-    code("\n	subl %%eax, %%esp #ovako se ostavljaju prazna mesta na stacku za prikaz praznih mesta");
-    code("\npetlja_zuti4:");
-    code("\n	decl zuti");
-    code("\n	js petlja_crveni4");
-    code("\n	pushl $znak_zuti");
-    code("\n	jmp petlja_zuti4");
-    code("\npetlja_crveni4:");
-    code("\n	decl crveni");
-    code("\n	js kombinacija4");
-    code("\n	pushl $znak_crveni");
-    code("\n	jmp petlja_crveni4");
-    code("\nkombinacija4:");
-    code("\n	movl $4, %%eax #brojac");
-    code("\npetlja_komb4:");
-    code("\n	decl %%eax");
-    code("\n	js peta_kombinacija");
-    code("\n	cmpb $0b01000000, pokusaj");
-    code("\n	ja upisi_skocko4");
-    code("\n	je upisi_tref4");
-    code("\n	cmpb $0b00010000, pokusaj");
-    code("\n	ja upisi_pik4");
-    code("\n	je upisi_herc4");
-    code("\n	cmpb $0b00000100, pokusaj");
-    code("\n	ja upisi_karo4");
-    code("\nupisi_zvezda4:");
-    code("\n	pushl $znak_zvezda");
-    code("\n	jmp brojac_petlja_komb4");
-    code("\nupisi_skocko4:");
-    code("\n	pushl $znak_skocko");
-    code("\n	jmp brojac_petlja_komb4");
-    code("\nupisi_tref4:");
-    code("\n	pushl $znak_tref");
-    code("\n	jmp brojac_petlja_komb4");
-    code("\nupisi_pik4:");
-    code("\n	pushl $znak_pik");
-    code("\n	jmp brojac_petlja_komb4");
-    code("\nupisi_herc4:");
-    code("\n	pushl $znak_herc");
-    code("\n	jmp brojac_petlja_komb4");
-    code("\nupisi_karo4:");
-    code("\n	pushl $znak_karo");
-    code("\nbrojac_petlja_komb4:");
-    code("\n	shrl $8, pokusaj");
-    code("\n	jmp petlja_komb4");
-    code("\n");
-    code("\npeta_kombinacija:");
-    code("\n	movl $4, %%eax");
-    code("\n	movl $1, %%ebx");
-    code("\n	leal clear, %%ecx");
-    code("\n	movl $clear_len, %%edx ");
-    code("\n	int $0x80");
-    code("\n	subl $32, brojac_stack #posto je pushovano 8 argumenata");
-    code("\n	subl brojac_stack, %%esp #vraca se stack pointer na vrh stack-a");
-    code("\n	call printf");
-    code("\n	cmpl $1, pogodjena_kombinacija");
-    code("\n	je poruka_pogodjena");
-    code("\n#-------celina za unos i racunanje 5");
-    code("\n	call input_kombinacija");
-    code("\n	movl pokusaj, %%eax");
-    code("\n	movl trazena_kombinacija, %%ebx");
-    code("\n	call histogram");
-    code("\n	movl %%esi, crveni");
-    code("\n	movl %%edi, zuti");
-    code("\n	call izracunaj_preostale");
-    code("\n	cmpl $4, crveni");
-    code("\n	jne ispis5");
-    code("\n	movl $1, pogodjena_kombinacija");
-    code("\n");
-    code("\n#-------celina za ispis 5");
-    code("\nispis5:");
-    code("\n	movl $164, brojac_stack #treci red pocinje odatle (u brojac_stack je ostala vrednost 4)");
-    code("\n	addl brojac_stack, %%esp #vracanje stack pointera na prvi sledeci koji nije prazan");
-    code("\n	#racunanje praznih znakova");
-    code("\n	movl $4, %%eax");
-    code("\n	subl zuti, %%eax");
-    code("\n	subl crveni, %%eax");
-    code("\n	movl $4, %%ebx");
-    code("\n	mull %%ebx");
-    code("\n	subl %%eax, %%esp #ovako se ostavljaju prazna mesta na stacku za prikaz praznih mesta");
-    code("\npetlja_zuti5:");
-    code("\n	decl zuti");
-    code("\n	js petlja_crveni5");
-    code("\n	pushl $znak_zuti");
-    code("\n	jmp petlja_zuti5");
-    code("\npetlja_crveni5:");
-    code("\n	decl crveni");
-    code("\n	js kombinacija5");
-    code("\n	pushl $znak_crveni");
-    code("\n	jmp petlja_crveni5");
-    code("\nkombinacija5:");
-    code("\n	movl $4, %%eax #brojac");
-    code("\npetlja_komb5:");
-    code("\n	decl %%eax");
-    code("\n	js sesta_kombinacija");
-    code("\n	cmpb $0b01000000, pokusaj");
-    code("\n	ja upisi_skocko5");
-    code("\n	je upisi_tref5");
-    code("\n	cmpb $0b00010000, pokusaj");
-    code("\n	ja upisi_pik5");
-    code("\n	je upisi_herc5");
-    code("\n	cmpb $0b00000100, pokusaj");
-    code("\n	ja upisi_karo5");
-    code("\nupisi_zvezda5:");
-    code("\n	pushl $znak_zvezda");
-    code("\n	jmp brojac_petlja_komb5");
-    code("\nupisi_skocko5:");
-    code("\n	pushl $znak_skocko");
-    code("\n	jmp brojac_petlja_komb5");
-    code("\nupisi_tref5:");
-    code("\n	pushl $znak_tref");
-    code("\n	jmp brojac_petlja_komb5");
-    code("\nupisi_pik5:");
-    code("\n	pushl $znak_pik");
-    code("\n	jmp brojac_petlja_komb5");
-    code("\nupisi_herc5:");
-    code("\n	pushl $znak_herc");
-    code("\n	jmp brojac_petlja_komb5");
-    code("\nupisi_karo5:");
-    code("\n	pushl $znak_karo");
-    code("\nbrojac_petlja_komb5:");
-    code("\n	shrl $8, pokusaj");
-    code("\n	jmp petlja_komb5");
-    code("\n");
-    code("\nsesta_kombinacija:");
-    code("\n	movl $4, %%eax");
-    code("\n	movl $1, %%ebx");
-    code("\n	leal clear, %%ecx");
-    code("\n	movl $clear_len, %%edx ");
-    code("\n	int $0x80");
-    code("\n	subl $32, brojac_stack #posto je pushovano 8 argumenata");
-    code("\n	subl brojac_stack, %%esp #vraca se stack pointer na vrh stack-a");
-    code("\n	call printf");
-    code("\n	cmpl $1, pogodjena_kombinacija");
-    code("\n	je poruka_pogodjena");
-    code("\n#-------celina za unos i racunanje 6");
-    code("\n	call input_kombinacija");
-    code("\n	movl pokusaj, %%eax");
-    code("\n	movl trazena_kombinacija, %%ebx");
-    code("\n	call histogram");
-    code("\n	movl %%esi, crveni");
-    code("\n	movl %%edi, zuti");
-    code("\n	call izracunaj_preostale");
-    code("\n	cmpl $4, crveni");
-    code("\n	jne ispis6");
-    code("\n	movl $1, pogodjena_kombinacija");
-    code("\n");
-    code("\n#-------celina za ispis 6");
-    code("\nispis6:");
-    code("\n	movl $196, brojac_stack #treci red pocinje odatle (u brojac_stack je ostala vrednost 4)");
-    code("\n	addl brojac_stack, %%esp #vracanje stack pointera na prvi sledeci koji nije prazan");
-    code("\n	#racunanje praznih znakova");
-    code("\n	movl $4, %%eax");
-    code("\n	subl zuti, %%eax");
-    code("\n	subl crveni, %%eax");
-    code("\n	movl $4, %%ebx");
-    code("\n	mull %%ebx");
-    code("\n	subl %%eax, %%esp #ovako se ostavljaju prazna mesta na stacku za prikaz praznih mesta");
-    code("\npetlja_zuti6:");
-    code("\n	decl zuti");
-    code("\n	js petlja_crveni6");
-    code("\n	pushl $znak_zuti");
-    code("\n	jmp petlja_zuti6");
-    code("\npetlja_crveni6:");
-    code("\n	decl crveni");
-    code("\n	js kombinacija6");
-    code("\n	pushl $znak_crveni");
-    code("\n	jmp petlja_crveni6");
-    code("\nkombinacija6:");
-    code("\n	movl $4, %%eax #brojac");
-    code("\npetlja_komb6:");
-    code("\n	decl %%eax");
-    code("\n	js finalna_kombinacija");
-    code("\n	cmpb $0b01000000, pokusaj");
-    code("\n	ja upisi_skocko6");
-    code("\n	je upisi_tref6");
-    code("\n	cmpb $0b00010000, pokusaj");
-    code("\n	ja upisi_pik6");
-    code("\n	je upisi_herc6");
-    code("\n	cmpb $0b00000100, pokusaj");
-    code("\n	ja upisi_karo6");
-    code("\nupisi_zvezda6:");
-    code("\n	pushl $znak_zvezda");
-    code("\n	jmp brojac_petlja_komb6");
-    code("\nupisi_skocko6:");
-    code("\n	pushl $znak_skocko");
-    code("\n	jmp brojac_petlja_komb6");
-    code("\nupisi_tref6:");
-    code("\n	pushl $znak_tref");
-    code("\n	jmp brojac_petlja_komb6");
-    code("\nupisi_pik6:");
-    code("\n	pushl $znak_pik");
-    code("\n	jmp brojac_petlja_komb6");
-    code("\nupisi_herc6:");
-    code("\n	pushl $znak_herc");
-    code("\n	jmp brojac_petlja_komb6");
-    code("\nupisi_karo6:");
-    code("\n	pushl $znak_karo");
-    code("\nbrojac_petlja_komb6:");
-    code("\n	shrl $8, pokusaj");
-    code("\n	jmp petlja_komb6");
-    code("\n");
-    code("\nfinalna_kombinacija:");
-    code("\n	movl $4, %%eax");
-    code("\n	movl $1, %%ebx");
-    code("\n	leal clear, %%ecx");
-    code("\n	movl $clear_len, %%edx ");
-    code("\n	int $0x80");
-    code("\n	subl $32, brojac_stack #posto je pushovano 8 argumenata");
-    code("\n	subl brojac_stack, %%esp #vraca se stack pointer na vrh stack-a");
-    code("\n	call printf");
-    code("\n	cmpl $1, pogodjena_kombinacija");
-    code("\n	je poruka_pogodjena");
-    code("\nporuka_promasena:");
-    code("\n	movl $4, %%eax #brojac");
-    code("\npetlja_komb7:");
-    code("\n	decl %%eax");
-    code("\n	js ispisi_pogresnu_kombinaciju");
-    code("\n	cmpb $0b01000000, trazena_kombinacija");
-    code("\n	ja upisi_skocko7");
-    code("\n	je upisi_tref7");
-    code("\n	cmpb $0b00010000, trazena_kombinacija");
-    code("\n	ja upisi_pik7");
-    code("\n	je upisi_herc7");
-    code("\n	cmpb $0b00000100, trazena_kombinacija");
-    code("\n	ja upisi_karo7");
-    code("\nupisi_zvezda7:");
-    code("\n	pushl $znak_zvezda");
-    code("\n	jmp brojac_petlja_komb7");
-    code("\nupisi_skocko7:");
-    code("\n	pushl $znak_skocko");
-    code("\n	jmp brojac_petlja_komb7");
-    code("\nupisi_tref7:");
-    code("\n	pushl $znak_tref");
-    code("\n	jmp brojac_petlja_komb7");
-    code("\nupisi_pik7:");
-    code("\n	pushl $znak_pik");
-    code("\n	jmp brojac_petlja_komb7");
-    code("\nupisi_herc7:");
-    code("\n	pushl $znak_herc");
-    code("\n	jmp brojac_petlja_komb7");
-    code("\nupisi_karo7:");
-    code("\n	pushl $znak_karo");
-    code("\nbrojac_petlja_komb7:");
-    code("\n	shrl $8, trazena_kombinacija");
-    code("\n	jmp petlja_komb7");
-    code("\nispisi_pogresnu_kombinaciju:");
-    code("\n	pushl $poruka_promasena_ispis");
-    code("\n	call printf");
-    code("\n	jmp kraj");
-    code("\n");
-    code("\n");
     code("\nporuka_pogodjena:");
     code("\n	movl $4, %%eax");
     code("\n	movl $1, %%ebx");
