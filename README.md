@@ -20,9 +20,9 @@ To run the program you need the following things:
 Make tool has the necessary commands to use the program. Just position yourself in the ```православни-скочко``` folder where the make file is located, and run the commands in the terminal:
 * ```make``` - creates the necessary files needed to play the mastermind game.
 * ```./скочко``` - run the mastermind game.
-* You need Serbian Cyrillic language to use the program.
+* You need Serbian Cyrillic language to use the program.<p align="center"><img src="/images/wrong-input.png"><p align="center">Illustration 2 - Serbian Cyrillic is required.</p></p>
   * Enter ```нова игра``` or ```започни``` to start the new game at any point.
-  * To input signs use either sign names separated by white space or corresponding sign numbers.
+  * To input signs use either sign names separated by white space or corresponding sign numbers. <p align="center"><img src="/images/combination-input.png"><p align="center">Illustration 3 - Inputing the combination.</p></p>
   * End the game at any time by typing ```крај```.
 * To watch the replay of the game you played, type ``` make replay REPLAY=igra1```. Name of the game you played in this example is ```igra1``` where number 1 is the number of the game since multiple games can be played in succession.
 * ```make help``` can be used to list all the supported commands.
