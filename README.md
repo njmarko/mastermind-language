@@ -13,6 +13,7 @@ To run the program you need the following things:
 * G++
 * Flex
 * Bison
+* GNU make
 * Serbian (Cyrillic with guillemets) language
 
 ## Running the program
