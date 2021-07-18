@@ -8,7 +8,7 @@
 ## Requirements
 
 To run the program you need the following things:
-* Linux - Tested on Ubuntu 20.4
+* Linux - Tested on Ubuntu 20.04
 * GCC
 * G++
 * Flex
